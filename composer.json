@@ -17,7 +17,8 @@
         "intervention/image": "^2.3",
         "laravelcollective/html": "5.2.*",
         "predis/predis": "^1.1",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "toin0u/geocoder-laravel": "@stable"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -54,6 +55,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
+            "php artisan ide-helper:models -W",
             "php artisan optimize"
         ]
     },

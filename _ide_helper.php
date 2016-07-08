@@ -1339,7 +1339,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \App\User|null 
+         * @return \App\Models\User|null 
          * @static 
          */
         public static function user(){
@@ -1443,7 +1443,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\User 
+         * @return \App\Models\User 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1548,7 +1548,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \App\User|null 
+         * @return \App\Models\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1590,7 +1590,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\User 
+         * @return \App\Models\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1630,7 +1630,7 @@ namespace {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \App\User 
+         * @return \App\Models\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */
@@ -13115,6 +13115,103 @@ namespace {
          */
         public static function componentCall($method, $parameters){
             return \Collective\Html\HtmlBuilder::componentCall($method, $parameters);
+        }
+        
+    }
+
+
+    class Geocoder extends \Toin0u\Geocoder\Facade\Geocoder{
+        
+        /**
+         * 
+         *
+         * @param \Geocoder\ResultFactoryInterface $resultFactory
+         * @static 
+         */
+        public static function setResultFactory($resultFactory = null){
+            return \Geocoder\Geocoder::setResultFactory($resultFactory);
+        }
+        
+        /**
+         * 
+         *
+         * @param integer $maxResults
+         * @return \Geocoder\GeocoderInterface 
+         * @static 
+         */
+        public static function limit($maxResults){
+            return \Geocoder\Geocoder::limit($maxResults);
+        }
+        
+        /**
+         * 
+         *
+         * @return integer $maxResults
+         * @static 
+         */
+        public static function getMaxResults(){
+            return \Geocoder\Geocoder::getMaxResults();
+        }
+        
+        /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */
+        public static function geocode($value){
+            return \Geocoder\Geocoder::geocode($value);
+        }
+        
+        /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */
+        public static function reverse($latitude, $longitude){
+            return \Geocoder\Geocoder::reverse($latitude, $longitude);
+        }
+        
+        /**
+         * Registers a provider.
+         *
+         * @param \Geocoder\ProviderInterface $provider
+         * @return \Geocoder\GeocoderInterface 
+         * @static 
+         */
+        public static function registerProvider($provider){
+            return \Geocoder\Geocoder::registerProvider($provider);
+        }
+        
+        /**
+         * Registers a set of providers.
+         *
+         * @param \Geocoder\ProviderInterface[] $providers
+         * @return \Geocoder\GeocoderInterface 
+         * @static 
+         */
+        public static function registerProviders($providers = array()){
+            return \Geocoder\Geocoder::registerProviders($providers);
+        }
+        
+        /**
+         * Sets the provider to use.
+         *
+         * @param string $name A provider's name
+         * @return \Geocoder\GeocoderInterface 
+         * @static 
+         */
+        public static function using($name){
+            return \Geocoder\Geocoder::using($name);
+        }
+        
+        /**
+         * Returns registered providers indexed by name.
+         *
+         * @return \Geocoder\ProviderInterface[] 
+         * @static 
+         */
+        public static function getProviders(){
+            return \Geocoder\Geocoder::getProviders();
         }
         
     }

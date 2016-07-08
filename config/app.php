@@ -154,6 +154,7 @@ return [
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Toin0u\Geocoder\GeocoderServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -216,7 +217,7 @@ return [
         'Image'               => Intervention\Image\Facades\Image::class,
         'Form'                => Collective\Html\FormFacade::class,
         'Html'                => Collective\Html\HtmlFacade::class,
-
+        'Geocoder'            => Toin0u\Geocoder\Facade\Geocoder::class,
 
     ],
 

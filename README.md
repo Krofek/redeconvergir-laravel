@@ -12,10 +12,10 @@ Development works best with [Laravel Homestead](https://laravel.com/docs/master/
 
 ## Log
 
-* Frontend
+* 5.7.2016 - mostly frontend
     * Intergration of bower and node components including Neat, Bourbon, Sass support, etc.
     * Laravel Elixir with gulp settings for frontend dependencies
-* Backend
+* 7.7.2016 - mostly backend dependencies
     * php dependencies
     * useful plugins
     * better localization support
