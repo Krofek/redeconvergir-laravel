@@ -1,12 +1,23 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "mcamara/laravel-localization": "1.1.*",
+        "barryvdh/laravel-ide-helper": "^2.2",
+        "lord/laroute": "2.*",
+        "barryvdh/laravel-debugbar": "^2.2",
+        "intervention/image": "^2.3",
+        "laravelcollective/html": "5.2.*",
+        "predis/predis": "^1.1",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -41,6 +52,8 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:meta",
             "php artisan optimize"
         ]
     },
