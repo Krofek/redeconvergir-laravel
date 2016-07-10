@@ -33,10 +33,6 @@ class Profile extends Model
 {
     protected $table = 'user_profiles';
 
-    protected $fillable = [];
-
-    protected $dates = [];
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

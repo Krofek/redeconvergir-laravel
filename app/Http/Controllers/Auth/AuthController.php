@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
+use Auth;
+use Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -43,14 +45,14 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'name'     => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -58,15 +60,49 @@ class AuthController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $socialUser = Socialite::driver($provider)->user();
+
+        $user = User::whereEmail($socialUser->getEmail())->first();
+
+        if($user) {
+            $user->update(['name' => $socialUser->getName()]);
+            $profile = $user->profile;
+            $profile->photo_url = $socialUser->getAvatar();
+            $profile->save();
+            Auth::login($user);
+
+
+        }
+        else {
+            if($provider === 'github') {
+                $user = User::create(['name' => $socialUser->getName(), 'email' => $socialUser->getEmail()]);
+
+                /** @var \App\Models\User\Profile $userProfile */
+                $userProfile = $user->profile()->create([]);
+                $userProfile->photo_url = $socialUser->getAvatar();
+                $userProfile->save();
+            }
+        }
+
+        return redirect()->to('/');
     }
 }

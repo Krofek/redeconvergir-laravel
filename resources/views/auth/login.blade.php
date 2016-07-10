@@ -7,6 +7,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-4"><h4>Oauth</h4></div>
+                        <div class="col-md-6">
+                            <a href="{{ route('auth.provider', 'github') }}" class="btn btn-block btn-default">Github</a>
+                            <a href="{{ route('auth.provider', 'facebook') }}" class="btn btn-block btn-default" disabled="">Facebook</a>
+                            <a href="{{ route('auth.provider', 'google') }}" class="btn btn-block btn-default" disabled>Google</a>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <p>or login with credentials</p>
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 

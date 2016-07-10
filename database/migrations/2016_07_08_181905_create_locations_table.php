@@ -17,10 +17,6 @@ class CreateLocationsTable extends Migration
             $table->string('name');
             $table->decimal('lat', 10, 6);
             $table->decimal('lng', 10, 6);
-            $table->string('street');
-            $table->string('city');
-            $table->integer('postal_code');
-            $table->string('country');
             $table->timestamps();
         });
     }

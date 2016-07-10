@@ -36,4 +36,14 @@ class InitiativeController extends Controller
     {
         return $initiative->toJson();
     }
+
+    public function create()
+    {
+        return view('initiative.create');
+    }
+
+    public function store(Requests\Initiative\StoreRequest $request)
+    {
+        $initiative = Initiative::create($request->all());
+    }
 }

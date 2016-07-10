@@ -28,16 +28,16 @@ class InitiativeServiceProvider extends ServiceProvider
     {
         $this->app->bind('App\Interfaces\InitiativeRepositoryInterface', 'App\Repositories\InitiativeRepository');
 
-        $this->app->singleton(InitiativeService::class);
+//        $this->app->singleton(InitiativeService::class);
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [InitiativeService::class];
-    }
+//    /**
+//     * Get the services provided by the provider.
+//     *
+//     * @return array
+//     */
+//    public function provides()
+//    {
+//        return [InitiativeService::class];
+//    }
 }

@@ -23,7 +23,7 @@ gulp.task('imagemin', function () {
 
 elixir(function(mix) {
 
-    mix.sass('style.scss', paths.DESTINATION + 'css');
+    mix.sass('style.scss', paths.DESTINATION + 'css').version('public/assets/css/style.css');
 
     mix.styles(paths.BOWER + 'normalize-css/normalize.css', paths.DESTINATION + 'css/normalize.css', './');
 
