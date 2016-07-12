@@ -17,7 +17,7 @@ class InitiativeTest extends TestCase
         'video_url'      => '',
         'logo_url'       => 'http://placehold.it/50x50',
         'doc_url'        => 'http://nonexistent.com',
-        'description'    => 'You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don\'t know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I\'m breaking now. We said we\'d say it was the snow that killed the other two, but it wasn\'t. Nature is lethal but it doesn\'t hold a candle to man.',
+        'description'    => "You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man.",
         'start_at'       => '2016-12-12',
         'audience_size'  => 4,
         'group_size'     => 50,
@@ -37,8 +37,8 @@ class InitiativeTest extends TestCase
             'other'       => ''
         ],
         'location' => [
-            'lat' => 31.45599299,
-            'lng' => 41.49014819
+            'lat' => 46.0375847,
+            'lng' => 14.4887289
         ],
         'tags'     => [0, 1, 2],
         'tags_other' => 'testing_tag',
@@ -90,6 +90,9 @@ class InitiativeTest extends TestCase
 
         // assert is google location
         $this->assertInstanceOf(Geocoded::class, $initiative->location->getGoogleLocation());
+
+        // lol - vem kje zvis madrfakr!!!
+        $this->assertEquals('Cesta V Mestni Log', $initiative->location->getGoogleLocation()->getStreetName());
     }
 
     public function testWithUploadedLogoAndDocs()
