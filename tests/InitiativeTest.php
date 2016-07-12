@@ -132,8 +132,8 @@ class InitiativeTest extends TestCase
         $parameters['category_id'] = $category->id;
         $parameters['category_other'] = 'testing_category';
 
-        $logo = new UploadedFile(app_path('../tests/test-image.jpg'), 'test-image.jpg');
-        $doc = new UploadedFile(app_path('../tests/test-doc.doc'), 'test-doc.doc');
+        $logo = new UploadedFile(app_path('../tests/files/test-image.jpg'), 'test-image.jpg');
+        $doc = new UploadedFile(app_path('../tests/files/test-doc.doc'), 'test-doc.doc');
 
         $files = compact('logo', 'doc');
 
