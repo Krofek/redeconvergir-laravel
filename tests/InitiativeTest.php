@@ -2,6 +2,7 @@
 
 use App\Models\Initiative;
 use App\Models\Initiative\Category;
+use Geocoder\Result\Geocoded;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -87,36 +88,9 @@ class InitiativeTest extends TestCase
         $this->assertTrue($initiative->tags->contains('name', 'testing_tag'));
 
         $this->assertFalse($initiative->docs->isEmpty());
-    }
 
-    public function testStoreController()
-    {
-        $parameters = self::$parameters;
-
-        $user = factory(App\Models\User::class)->create();
-
-        /** @var Category $category */
-        $category = factory(App\Models\Initiative\Category::class)->create();
-        $parameters['category_id'] = $category->id;
-
-        $response = $this->actingAs($user)->json('post', route('initiative.store'), $parameters);
-
-        $response->arrayHasKey('id');
-        $response->seeJson(['category_id' => $category->id]);
-
-        /** @var Initiative $initiative */
-        $initiative = Initiative::find($response->decodeResponseJson()['id']);
-
-        $this->assertTrue($initiative->exists);
-        $this->assertTrue($initiative->category->exists);
-
-        $this->assertFalse($initiative->audience->isEmpty());
-        $this->assertFalse($initiative->tags->isEmpty());
-
-        $this->assertTrue($initiative->contact->exists);
-        $this->assertTrue($initiative->location->exists);
-
-        $this->assertFalse($initiative->docs->isEmpty());
+        // assert is google location
+        $this->assertInstanceOf(Geocoded::class, $initiative->location->getGoogleLocation());
     }
 
     public function testWithUploadedLogoAndDocs()
@@ -151,5 +125,35 @@ class InitiativeTest extends TestCase
         $this->assertEquals(2, count($initiative->docs));
 
         File::deleteDirectory(public_path('storage/initiative/' . $initiative->id));
+    }
+
+    public function testStoreController()
+    {
+        $parameters = self::$parameters;
+
+        $user = factory(App\Models\User::class)->create();
+
+        /** @var Category $category */
+        $category = factory(App\Models\Initiative\Category::class)->create();
+        $parameters['category_id'] = $category->id;
+
+        $response = $this->actingAs($user)->json('post', route('initiative.store'), $parameters);
+
+        $response->arrayHasKey('id');
+        $response->seeJson(['category_id' => $category->id]);
+
+        /** @var Initiative $initiative */
+        $initiative = Initiative::find($response->decodeResponseJson()['id']);
+
+        $this->assertTrue($initiative->exists);
+        $this->assertTrue($initiative->category->exists);
+
+        $this->assertFalse($initiative->audience->isEmpty());
+        $this->assertFalse($initiative->tags->isEmpty());
+
+        $this->assertTrue($initiative->contact->exists);
+        $this->assertTrue($initiative->location->exists);
+
+        $this->assertFalse($initiative->docs->isEmpty());
     }
 }

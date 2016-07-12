@@ -30,8 +30,20 @@ class Location extends Model
         'name', 'lat', 'lng'
     ];
 
+    protected $googleLocation;
+
     public function initiatives()
     {
         return $this->hasMany(Initiative::class, 'location_id');
+    }
+
+    public function getGoogleLocation()
+    {
+        if(!$this->googleLocation) {
+            $geocode = \Geocoder::reverse($this->attributes['lat'], $this->attributes['lng']);
+            $this->googleLocation = $geocode;
+        }
+
+        return $this->googleLocation;
     }
 }

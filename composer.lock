@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "26d3a30c9684accc8856e753ccffbf2c",
-    "content-hash": "22d01d2ca7601f2c91f40182469c483f",
+    "hash": "b1443b00e7c7383f15c6c5a4bf306a8a",
+    "content-hash": "6480a955c608c49b0c9d8b78a8e5f48a",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -3113,16 +3113,16 @@
         },
         {
             "name": "toin0u/geocoder-laravel",
-            "version": "0.6.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/geocoder-php/GeocoderLaravel.git",
-                "reference": "3cff8193e408472abc9852301a95e7c30e728ec5"
+                "reference": "9069849d4ae0420cde4c6191c917557e955bac45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/geocoder-php/GeocoderLaravel/zipball/3cff8193e408472abc9852301a95e7c30e728ec5",
-                "reference": "3cff8193e408472abc9852301a95e7c30e728ec5",
+                "url": "https://api.github.com/repos/geocoder-php/GeocoderLaravel/zipball/9069849d4ae0420cde4c6191c917557e955bac45",
+                "reference": "9069849d4ae0420cde4c6191c917557e955bac45",
                 "shasum": ""
             },
             "require": {
@@ -3138,7 +3138,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.5-dev"
+                    "dev-master": "0.6-dev"
                 }
             },
             "autoload": {
@@ -3165,7 +3165,7 @@
                 "geocoding",
                 "laravel"
             ],
-            "time": "2015-07-10 09:04:22"
+            "time": "2016-01-28 19:51:36"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4657,7 +4657,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "toin0u/geocoder-laravel": 0
+        "toin0u/geocoder-laravel": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
