@@ -12,8 +12,6 @@
 */
 
 Route::get('/', function () {
-
-    dd(Storage::files('temp'));
     return view('welcome');
 });
 
@@ -23,16 +21,14 @@ Route::get('/auth/{provider}/callback', 'Auth\AuthController@handleProviderCallb
 
 Route::get('/home', 'HomeController@index');
 
+Route::group(['middleware' => 'auth'], function() {
 
-
-
-//Route::group(['middleware' => 'auth'], function() {
-
+    // Initiative
     Route::group(['prefix' => 'initiative'], function() {
-//        Route::get('/', 'InitiativeController@index')->name('initiative.index');
-//        Route::get('/create', 'InitiativeController@create')->name('initiative.create');
+        Route::get('/', 'InitiativeController@index')->name('initiative.index');
+        Route::get('/create', 'InitiativeController@create')->name('initiative.create');
         Route::match(['GET', 'POST'], '/', 'InitiativeController@store')->name('initiative.store');
 
-//        Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
+        Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
     });
-//});
+});

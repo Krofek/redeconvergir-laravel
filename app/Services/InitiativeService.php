@@ -137,9 +137,9 @@ class InitiativeService
      */
     public function createFromRequest(Request $request)
     {
-//        DB::beginTransaction();
-//
-//        try {
+        DB::beginTransaction();
+
+        try {
             $initiative = $this->setupInitiative($request);
 
             // setup category
@@ -160,16 +160,16 @@ class InitiativeService
             $initiative->save();
 
             // all good
-//        } catch (\Exception $e) {
-//            // something went wrong
-//            DB::rollback();
-//
-//            dd($e->getTraceAsString());
-//
-//            throw new \Exception('Error creating initiative: ' . $e->getMessage());
-//        }
+        } catch (\Exception $e) {
+            // something went wrong
+            DB::rollback();
 
-//        DB::commit();
+            dd($e->getTraceAsString());
+
+            throw new \Exception('Error creating initiative: ' . $e->getMessage());
+        }
+
+        DB::commit();
 
         return $initiative;
     }

@@ -1,6 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Settings for the Initiative model
+ *
+ * - validation
+ * - seeders
+ * - etc.
+ *
+ *
  * User: krofek
  * Date: 7/10/16
  * Time: 4:04 PM
