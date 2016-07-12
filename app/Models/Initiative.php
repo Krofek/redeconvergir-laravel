@@ -8,7 +8,6 @@ use App\Models\Initiative\Category\Other;
 use App\Models\Initiative\Tag;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * App\Models\Initiative
  *
@@ -76,7 +75,9 @@ class Initiative extends Model
         'category_name'
     ];
 
-    // RELATIONS
+    /* ******************************************
+     * ********** MODEL RELATIONS ***************
+     * ******************************************/
 
     public function category()
     {
@@ -108,7 +109,9 @@ class Initiative extends Model
         return $this->belongsTo(Location::class, 'location_id');
     }
 
-    // ACCESSORS
+    /* ******************************************
+     * ********** MODEL ACCESSORS ***************
+     * ******************************************/
 
     public function getCategoryNameAttribute($value)
     {

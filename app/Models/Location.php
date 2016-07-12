@@ -37,6 +37,9 @@ class Location extends Model
         return $this->hasMany(Initiative::class, 'location_id');
     }
 
+    /**
+     * @return \Geocoder\Result\ResultInterface|\Geocoder\Result\Geocoded
+     */
     public function getGoogleLocation()
     {
         if(!$this->googleLocation) {

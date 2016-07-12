@@ -3,9 +3,8 @@
 use App\Models\Initiative;
 use App\Models\Initiative\Category;
 use Geocoder\Result\Geocoded;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Contracts\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class InitiativeTest extends TestCase
@@ -155,5 +154,16 @@ class InitiativeTest extends TestCase
         $this->assertTrue($initiative->location->exists);
 
         $this->assertFalse($initiative->docs->isEmpty());
+    }
+
+    public function testValidationError()
+    {
+        $parameters = self::$parameters;
+
+        $user = factory(App\Models\User::class)->create();
+
+        $this->actingAs($user)
+            ->json('post', route('initiative.store'), $parameters)
+            ->seeJson(['category_id' => [0 => 'The category id field is required.']]);
     }
 }
