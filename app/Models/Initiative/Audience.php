@@ -27,6 +27,10 @@ class Audience extends Model
 {
     protected $table = 'initiative_audience';
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function initiative()
     {
         return $this->belongsTo(Initiative::class, 'initiative_id');

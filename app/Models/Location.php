@@ -26,6 +26,10 @@ class Location extends Model
 {
     protected $table = 'locations';
 
+    protected $fillable = [
+        'name', 'lat', 'lng'
+    ];
+
     public function initiatives()
     {
         return $this->hasMany(Initiative::class, 'location_id');

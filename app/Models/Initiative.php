@@ -61,11 +61,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read mixed $logo
- * @property-read mixed $docs
+ * @property-read \Illuminate\Database\Eloquent\Collection $docs
  */
 class Initiative extends Model
 {
     protected $table = 'initiatives';
+
+    protected $fillable = [
+        'name', 'category_id', 'contact_id', 'url', 'logo_url', 'doc_url', 'video_url', 'start_at', 'audience_size',
+        'group_size', 'area_size', 'accepts_visits', 'location_type', 'location_id'
+    ];
+
+    protected $appends = [
+        'category_name'
+    ];
 
     // RELATIONS
 
@@ -91,12 +100,12 @@ class Initiative extends Model
 
     public function contact()
     {
-        return $this->hasOne(Contact::class, 'contact_id');
+        return $this->belongsTo(Contact::class, 'contact_id');
     }
 
     public function location()
     {
-        return $this->hasOne(Location::class, 'location_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     // ACCESSORS
@@ -134,13 +143,14 @@ class Initiative extends Model
 
     public function getDocsAttribute()
     {
-        $docs = [];
-        if ($this->attributes['doc_url']) $docs[] = $this->attributes['doc_url'];
+        $docs = collect();
+
+        if ($this->attributes['doc_url']) $docs->push($this->attributes['doc_url']);
 
         $dir = 'initiative/' . $this->attributes['id'] . '/docs';
-        $files = \Storage::files($dir);
-        if ($files) {
-            foreach ($files as $file) $docs[] = \Storage::url($file);
+
+        if ($files = \Storage::files($dir)) {
+            foreach ($files as $file) $docs->push(\Storage::url($file));
         }
 
         return $docs;

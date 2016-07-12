@@ -19,6 +19,10 @@ class Other extends Model
 {
     protected $table = 'initiative_tags_other';
 
+    protected $fillable = ['name'];
+
+    public $timestamps = false;
+
     public function tag()
     {
         return $this->belongsTo(Tag::class, 'tag_id');

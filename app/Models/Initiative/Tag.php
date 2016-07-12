@@ -27,6 +27,8 @@ class Tag extends Model
 {
     protected $table = 'initiative_tags';
 
+    protected $fillable = ['name'];
+
     public function initiative()
     {
         return $this->belongsTo(Initiative::class, 'initiative_id');

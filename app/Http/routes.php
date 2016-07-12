@@ -26,11 +26,13 @@ Route::get('/home', 'HomeController@index');
 
 
 
-Route::group(['middleware' => 'auth'], function() {
+//Route::group(['middleware' => 'auth'], function() {
+
     Route::group(['prefix' => 'initiative'], function() {
-        Route::get('/', 'InitiativeController@index')->name('initiative.index');
-        Route::get('/create', 'InitiativeController@create')->name('initiative.create');
-        Route::post('/', 'InitiativeController@store')->name('initiative.store');
-        Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
+//        Route::get('/', 'InitiativeController@index')->name('initiative.index');
+//        Route::get('/create', 'InitiativeController@create')->name('initiative.create');
+        Route::match(['GET', 'POST'], '/', 'InitiativeController@store')->name('initiative.store');
+
+//        Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
     });
-});
+//});

@@ -25,6 +25,10 @@ class Category extends Model
 {
     protected $table = 'initiative_categories';
 
+    protected $fillable = [
+        'name', 'description'
+    ];
+
     public function initiative()
     {
         return $this->belongsTo(Initiative::class, 'initiative_id');

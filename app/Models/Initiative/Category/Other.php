@@ -19,6 +19,10 @@ class Other extends Model
 {
     protected $table = 'initiative_categories_other';
 
+    protected $fillable = ['name'];
+
+    public $timestamps = false;
+
     public function initiative()
     {
         return $this->belongsTo(Initiative::class, 'initiative_id');

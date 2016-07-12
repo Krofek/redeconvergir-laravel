@@ -1,0 +1,16 @@
+PHPUnit 4.8.26 by Sebastian Bergmann and contributors.
+
+."""
+<!DOCTYPE html>\n
+<html>\n
+    <head>\n
+        <meta charset="UTF-8" />\n
+        <meta http-equiv="refresh" content="1;url=http://redeconvergir.local" />\n
+\n
+        <title>Redirecting to http://redeconvergir.local</title>\n
+    </head>\n
+    <body>\n
+        Redirecting to <a href="http://redeconvergir.local">http://redeconvergir.local</a>.\n
+    </body>\n
+</html>
+"""
