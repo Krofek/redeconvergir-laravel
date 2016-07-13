@@ -1,9 +1,12 @@
 <?php
 
 use App\Models\Initiative;
+use App\Models\Initiative\Audience;
 use App\Models\Initiative\Category;
+use App\Models\Initiative\Tag;
 use Geocoder\Result\Geocoded;
 use Illuminate\Contracts\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -83,8 +86,8 @@ class InitiativeTest extends TestCase
         $this->assertTrue($initiative->contact->exists);
         $this->assertTrue($initiative->location->exists);
 
-        $this->assertTrue($initiative->audience->contains('name', 'testing_audience'));
-        $this->assertTrue($initiative->tags->contains('name', 'testing_tag'));
+        $this->assertTrue($initiative->audience->contains('real_name', 'testing_audience'));
+        $this->assertTrue($initiative->tags->contains('real_name', 'testing_tag'));
 
         $this->assertFalse($initiative->docs->isEmpty());
 
@@ -168,5 +171,105 @@ class InitiativeTest extends TestCase
         $this->actingAs($user)
             ->json('post', route('initiative.store'), $parameters)
             ->seeJson(['category_id' => [0 => 'The category id field is required.']]);
+    }
+
+    public function testFilters()
+    {
+        $number_of_categories = 8;
+        /** @var Category[]|Collection $categories */
+        $categories = factory(App\Models\Initiative\Category::class, $number_of_categories)->create();
+
+        $initiatives = collect();
+        $i = 0;
+        /** @var Category $category */
+        foreach($categories as $category) {
+            if($i === 0) $category->name = 'other'; $category->save();
+            $temp = factory(App\Models\Initiative::class, random_int(5, 15))->create(['category_id' => $category->id]);
+
+            /** @var Initiative $initiative */
+            foreach($temp as $initiative) {
+                if($category->name === 'other') $initiative->otherCategory()->save(factory(App\Models\Initiative\Category\Other::class)->make());
+                $tagsArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.tags')) - 1, random_int(0, 6));
+                foreach($tagsArray as $tag) {
+                    $name = config('rede_initiative.tags')[$tag];
+                    /** @var Tag $t */
+                    $t = $initiative->tags()->create(['name' => $name]);
+                    if($name === 'other') $t->other()->save(factory(App\Models\Initiative\Tag\Other::class)->make());
+                }
+                $audienceArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.audience')) - 1, random_int(0, 5));
+                foreach($audienceArray as $audience) {
+                    $name = config('rede_initiative.audience')[$audience];
+                    /** @var Audience $a */
+                    $a = $initiative->audience()->create(compact('name'));
+                    if($name === 'other') $a->other()->save(factory(App\Models\Initiative\Audience\Other::class)->make());
+                }
+                $initiative->save();
+            }
+            $initiatives->merge($temp);
+            $i++;
+        }
+
+        $repository = new \App\Repositories\InitiativeRepository(new Initiative());
+
+        /**
+         * filter by:
+         * - category
+         * - tags
+         * - audience
+         * - area type
+         * - audience sizes
+         */
+
+        $filters = ['category_id', 'tags', 'audience', 'location_type', 'audience_size'];
+
+        // one by one
+        foreach($filters as $filter) {
+            /** @var Illuminate\Http\Request $request */
+
+            if($filter === 'category_id') {
+                $randomCategories = $categories->random(random_int(0, $number_of_categories - 1));
+                $intArray = $randomCategories->pluck('id')->toArray();
+            }
+            else {
+                $intArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative')[$filter]) - 1, random_int(1, 3));
+            }
+
+            $request = Request::create(null, 'POST', [ $filter => $intArray ]);
+
+            $results = $repository->filterFromRequest($request);
+            if($results) {
+                foreach($results as $result) {
+                    if($filter === 'category_id') {
+                        $this->assertContains($result->category_id, $intArray);
+                    }
+                    elseif(in_array($filter, ['location_type', 'audience_size'])) {
+                        $names = [];
+                        foreach($intArray as $int) $names[] = config('rede_initiative')[$filter][$int];
+                        $this->assertContains($result->$filter, $names);
+                    }
+                    else {
+                        // check if at least one of them params consists
+                        $names = collect();
+                        if($intArray) foreach($intArray as $int) $names->push(config('rede_initiative')[$filter][$int]);
+                        if($result->$filter) {
+                            $this->assertGreaterThan(
+                                0,
+                                $names->intersect($result->$filter->pluck('name')->toArray())->count(),
+                                implode(',', $names->toArray()) . '-' . $result->$filter->implode('name', ',')
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        // random two
+
+        // random three
+
+        // random four
+
+        // all
+
     }
 }

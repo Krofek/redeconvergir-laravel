@@ -34,13 +34,18 @@ class Tag extends Model
         return $this->belongsTo(Initiative::class, 'initiative_id');
     }
 
-    public function getNameAttribute($value)
-    {
-        return $value === 'other' ? $this->other->name : trans($value);
-    }
+//    public function getNameAttribute($value)
+//    {
+//        return $value === 'other' ? $this->other->name : trans($value);
+//    }
 
     public function other()
     {
         return $this->hasOne(Other::class, 'tag_id');
+    }
+
+    public function getRealNameAttribute()
+    {
+        return $this->name === 'other' ? $this->other->name : trans('tags.' . $this->name);
     }
 }

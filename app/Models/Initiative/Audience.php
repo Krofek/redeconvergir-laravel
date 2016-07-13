@@ -36,13 +36,18 @@ class Audience extends Model
         return $this->belongsTo(Initiative::class, 'initiative_id');
     }
 
-    public function getNameAttribute($value)
-    {
-        return $value === 'other' ? $this->other->name : trans($value);
-    }
+//    public function getNameAttribute($value)
+//    {
+//        return $value === 'other' ? $this->other->name : trans($value);
+//    }
 
     public function other()
     {
         return $this->hasOne(Other::class, 'audience_id');
+    }
+
+    public function getRealNameAttribute()
+    {
+        return $this->name === 'other' ? $this->other->name : trans('audience.' . $this->name);
     }
 }

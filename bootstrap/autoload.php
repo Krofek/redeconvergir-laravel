@@ -13,7 +13,13 @@ define('LARAVEL_START', microtime(true));
 | loading of any our classes "manually". Feels great to relax.
 |
 */
-
+function UniqueRandomNumbersWithinRange($min, $max, $quantity)
+{
+    if ($quantity === 0) return [];
+    $numbers = range($min, $max);
+    shuffle($numbers);
+    return array_slice($numbers, 0, $quantity);
+}
 require __DIR__.'/../vendor/autoload.php';
 
 /*
