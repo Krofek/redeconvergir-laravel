@@ -158,11 +158,6 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
-         * SleepingOwl Service Provider
-         */
-        SleepingOwl\Admin\Providers\SleepingOwlServiceProvider::class,
-
-        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
