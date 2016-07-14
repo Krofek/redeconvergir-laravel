@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth:api');
 
 Route::auth();
 Route::get('/auth/{provider}', 'Auth\AuthController@redirectToProvider')->name('auth.provider');

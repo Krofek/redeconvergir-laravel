@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Contact $contact
  * @property-read \App\Models\Location $location
  * @property-read mixed $category_name
+ * @property-read mixed $logo
+ * @property-read mixed $docs
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCategoryId($value)
@@ -59,8 +61,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read mixed $logo
- * @property-read \Illuminate\Database\Eloquent\Collection $docs
  */
 class Initiative extends Model
 {

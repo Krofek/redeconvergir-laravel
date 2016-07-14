@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Models\Initiative $initiative
  * @property-read \App\Models\Initiative\Audience\Other $other
+ * @property-read mixed $real_name
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Audience whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Audience whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Audience whereInitiativeId($value)

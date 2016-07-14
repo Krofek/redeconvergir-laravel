@@ -157,6 +157,9 @@ return [
         Toin0u\Geocoder\GeocoderServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+//        Irazasyed\JwtAuthGuard\JwtAuthGuardServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -165,6 +168,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\InitiativeServiceProvider::class,
+        App\Providers\ApiServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -221,6 +225,7 @@ return [
         'Html'                => Collective\Html\HtmlFacade::class,
         'Geocoder'            => Toin0u\Geocoder\Facade\Geocoder::class,
         'Socialite'           => Laravel\Socialite\Facades\Socialite::class,
+        'JWTAuth'             => Tymon\JWTAuth\Facades\JWTAuth::class
     ],
 
 ];

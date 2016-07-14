@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Initiative\Category\Other
  *
- * @property-read \App\Models\Initiative $initiative
- * @mixin \Eloquent
  * @property integer $initiative_id
  * @property string $name
+ * @property-read \App\Models\Initiative $initiative
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Category\Other whereInitiativeId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Category\Other whereName($value)
+ * @mixin \Eloquent
  */
 class Other extends Model
 {

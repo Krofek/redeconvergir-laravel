@@ -189,14 +189,14 @@ class InitiativeTest extends TestCase
             /** @var Initiative $initiative */
             foreach($temp as $initiative) {
                 if($category->name === 'other') $initiative->otherCategory()->save(factory(App\Models\Initiative\Category\Other::class)->make());
-                $tagsArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.tags')) - 1, random_int(0, 6));
+                $tagsArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.tags')) - 1, random_int(1, 6));
                 foreach($tagsArray as $tag) {
                     $name = config('rede_initiative.tags')[$tag];
                     /** @var Tag $t */
                     $t = $initiative->tags()->create(['name' => $name]);
                     if($name === 'other') $t->other()->save(factory(App\Models\Initiative\Tag\Other::class)->make());
                 }
-                $audienceArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.audience')) - 1, random_int(0, 5));
+                $audienceArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.audience')) - 1, random_int(1, 5));
                 foreach($audienceArray as $audience) {
                     $name = config('rede_initiative.audience')[$audience];
                     /** @var Audience $a */
@@ -227,7 +227,7 @@ class InitiativeTest extends TestCase
             /** @var Illuminate\Http\Request $request */
 
             if($filter === 'category_id') {
-                $randomCategories = $categories->random(random_int(0, $number_of_categories - 1));
+                $randomCategories = $categories->random(random_int(1, $number_of_categories));
                 $intArray = $randomCategories->pluck('id')->toArray();
             }
             else {
@@ -248,7 +248,7 @@ class InitiativeTest extends TestCase
                         $this->assertContains($result->$filter, $names);
                     }
                     else {
-                        // check if at least one of them params consists
+                        // check if at least one of them params exists in array
                         $names = collect();
                         if($intArray) foreach($intArray as $int) $names->push(config('rede_initiative')[$filter][$int]);
                         if($result->$filter) {

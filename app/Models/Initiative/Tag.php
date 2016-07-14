@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Models\Initiative $initiative
  * @property-read \App\Models\Initiative\Tag\Other $other
+ * @property-read mixed $real_name
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Tag whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Tag whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Tag whereInitiativeId($value)
