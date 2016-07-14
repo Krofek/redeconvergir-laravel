@@ -29,7 +29,8 @@ class InitiativeController extends Controller
 
     public function index()
     {
-        return $this->initiative->getAll();
+//        return $this->initiative->getAll();
+        return view('initiative.index');
     }
 
     public function find(Initiative $initiative)

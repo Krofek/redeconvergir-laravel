@@ -11,11 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-
-    dd(Storage::files('temp'));
-    return view('welcome');
-});
+Route::get('/', 'IndexController@index');
+Route::get('/initiatives', 'InitiativeController@index');
 
 Route::auth();
 Route::get('/auth/{provider}', 'Auth\AuthController@redirectToProvider')->name('auth.provider');
@@ -34,3 +31,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
     });
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

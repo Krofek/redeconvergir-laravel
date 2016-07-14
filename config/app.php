@@ -158,6 +158,11 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
+         * SleepingOwl Service Provider
+         */
+        SleepingOwl\Admin\Providers\SleepingOwlServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -168,6 +173,7 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        'GoogleMaps\ServiceProvider\GoogleMapsServiceProvider',
 
     ],
 
@@ -221,6 +227,7 @@ return [
         'Html'                => Collective\Html\HtmlFacade::class,
         'Geocoder'            => Toin0u\Geocoder\Facade\Geocoder::class,
         'Socialite'           => Laravel\Socialite\Facades\Socialite::class,
+        'GoogleMaps'          => 'GoogleMaps\Facade\GoogleMapsFacade',
     ],
 
 ];

@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.39 on 2016-07-11.
+ * Generated for Laravel 5.2.39 on 2016-07-14.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -2514,6 +2514,47 @@ namespace {
          */
         public static function getQueuedCookies(){
             return \Illuminate\Cookie\CookieJar::getQueuedCookies();
+        }
+        
+    }
+
+
+    class Crypt extends \Illuminate\Support\Facades\Crypt{
+        
+        /**
+         * Determine if the given key and cipher combination is valid.
+         *
+         * @param string $key
+         * @param string $cipher
+         * @return bool 
+         * @static 
+         */
+        public static function supported($key, $cipher){
+            return \Illuminate\Encryption\Encrypter::supported($key, $cipher);
+        }
+        
+        /**
+         * Encrypt the given value.
+         *
+         * @param string $value
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */
+        public static function encrypt($value){
+            return \Illuminate\Encryption\Encrypter::encrypt($value);
+        }
+        
+        /**
+         * Decrypt the given value.
+         *
+         * @param string $payload
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */
+        public static function decrypt($payload){
+            return \Illuminate\Encryption\Encrypter::decrypt($payload);
         }
         
     }
@@ -6605,6 +6646,125 @@ namespace {
          */
         public static function isDownForMaintenance(){
             return \Illuminate\Queue\QueueManager::isDownForMaintenance();
+        }
+        
+        /**
+         * Push a new job onto the queue.
+         *
+         * @param string $job
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @throws \Exception|\Throwable
+         * @static 
+         */
+        public static function push($job, $data = '', $queue = null){
+            return \Illuminate\Queue\SyncQueue::push($job, $data, $queue);
+        }
+        
+        /**
+         * Push a raw payload onto the queue.
+         *
+         * @param string $payload
+         * @param string $queue
+         * @param array $options
+         * @return mixed 
+         * @static 
+         */
+        public static function pushRaw($payload, $queue = null, $options = array()){
+            return \Illuminate\Queue\SyncQueue::pushRaw($payload, $queue, $options);
+        }
+        
+        /**
+         * Push a new job onto the queue after a delay.
+         *
+         * @param \DateTime|int $delay
+         * @param string $job
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */
+        public static function later($delay, $job, $data = '', $queue = null){
+            return \Illuminate\Queue\SyncQueue::later($delay, $job, $data, $queue);
+        }
+        
+        /**
+         * Pop the next job off of the queue.
+         *
+         * @param string $queue
+         * @return \Illuminate\Contracts\Queue\Job|null 
+         * @static 
+         */
+        public static function pop($queue = null){
+            return \Illuminate\Queue\SyncQueue::pop($queue);
+        }
+        
+        /**
+         * Push a new job onto the queue.
+         *
+         * @param string $queue
+         * @param string $job
+         * @param mixed $data
+         * @return mixed 
+         * @static 
+         */
+        public static function pushOn($queue, $job, $data = ''){
+            //Method inherited from \Illuminate\Queue\Queue            
+            return \Illuminate\Queue\SyncQueue::pushOn($queue, $job, $data);
+        }
+        
+        /**
+         * Push a new job onto the queue after a delay.
+         *
+         * @param string $queue
+         * @param \DateTime|int $delay
+         * @param string $job
+         * @param mixed $data
+         * @return mixed 
+         * @static 
+         */
+        public static function laterOn($queue, $delay, $job, $data = ''){
+            //Method inherited from \Illuminate\Queue\Queue            
+            return \Illuminate\Queue\SyncQueue::laterOn($queue, $delay, $job, $data);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */
+        public static function bulk($jobs, $data = '', $queue = null){
+            //Method inherited from \Illuminate\Queue\Queue            
+            return \Illuminate\Queue\SyncQueue::bulk($jobs, $data, $queue);
+        }
+        
+        /**
+         * Set the IoC container instance.
+         *
+         * @param \Illuminate\Container\Container $container
+         * @return void 
+         * @static 
+         */
+        public static function setContainer($container){
+            //Method inherited from \Illuminate\Queue\Queue            
+            \Illuminate\Queue\SyncQueue::setContainer($container);
+        }
+        
+        /**
+         * Set the encrypter instance.
+         *
+         * @param \Illuminate\Contracts\Encryption\Encrypter $crypt
+         * @return void 
+         * @static 
+         */
+        public static function setEncrypter($crypt){
+            //Method inherited from \Illuminate\Queue\Queue            
+            \Illuminate\Queue\SyncQueue::setEncrypter($crypt);
         }
         
     }
@@ -13048,6 +13208,130 @@ namespace {
         public static function getDrivers(){
             //Method inherited from \Illuminate\Support\Manager            
             return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+        
+    }
+
+
+    class GoogleMaps extends \GoogleMaps\Facade\GoogleMapsFacade{
+        
+        /**
+         * Bootstraping Web Service
+         *
+         * @param string $service
+         * @return \GoogleMaps\GooglMaps\WebService 
+         * @static 
+         */
+        public static function load($service){
+            return \GoogleMaps\GoogleMaps::load($service);
+        }
+        
+        /**
+         * Setting endpoint
+         *
+         * @param string $key
+         * @return $this 
+         * @static 
+         */
+        public static function setEndpoint($key = 'json'){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::setEndpoint($key);
+        }
+        
+        /**
+         * Getting endpoint
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getEndpoint(){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::getEndpoint();
+        }
+        
+        /**
+         * Set parameter by key
+         *
+         * @param string $key
+         * @param string $value
+         * @return $this 
+         * @static 
+         */
+        public static function setParamByKey($key, $value){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::setParamByKey($key, $value);
+        }
+        
+        /**
+         * Get parameter by the key
+         *
+         * @param string $key
+         * @return mixed 
+         * @static 
+         */
+        public static function getParamByKey($key){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::getParamByKey($key);
+        }
+        
+        /**
+         * Set all parameters at once
+         *
+         * @param array $param
+         * @return $this 
+         * @static 
+         */
+        public static function setParam($param){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::setParam($param);
+        }
+        
+        /**
+         * Return parameters array
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getParam(){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::getParam();
+        }
+        
+        /**
+         * Get Web Service Response
+         *
+         * @param string $needle - response key
+         * @return string 
+         * @static 
+         */
+        public static function get($needle = false){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::get($needle);
+        }
+        
+        /**
+         * Get response value by key
+         *
+         * @param string $needle - retrieves response parameter using "dot" notation
+         * @param int $offset
+         * @param int $length
+         * @return array 
+         * @static 
+         */
+        public static function getResponseByKey($needle = false, $offset = 0, $length = null){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::getResponseByKey($needle, $offset, $length);
+        }
+        
+        /**
+         * Get response status
+         *
+         * @return mixed 
+         * @static 
+         */
+        public static function getStatus(){
+            //Method inherited from \GoogleMaps\WebService            
+            return \GoogleMaps\GoogleMaps::getStatus();
         }
         
     }
