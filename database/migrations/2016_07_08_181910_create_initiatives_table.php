@@ -15,6 +15,7 @@ class CreateInitiativesTable extends Migration
         Schema::create('initiatives', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable(false);
+            $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable(false)->unsigned();
 
             $table->longText('description');
@@ -46,6 +47,9 @@ class CreateInitiativesTable extends Migration
             $table->foreign('location_id')->references('id')->on('locations');
 
             $table->foreign('contact_id')->references('id')->on('contacts');
+
+            $table->index(['user_id']);
+
             //
             $table->timestamps();
         });

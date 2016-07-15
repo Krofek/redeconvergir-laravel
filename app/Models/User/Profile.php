@@ -33,6 +33,10 @@ class Profile extends Model
 {
     protected $table = 'user_profiles';
 
+    protected $fillable = [
+        'bio', 'photo_url', 'website', 'facebook', 'twitter'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

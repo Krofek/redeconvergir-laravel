@@ -8,7 +8,6 @@ use App\Models\Initiative\Category\Other;
 use App\Models\Initiative\Tag;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * App\Models\Initiative
  *
@@ -39,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Contact $contact
  * @property-read \App\Models\Location $location
  * @property-read mixed $category_name
+ * @property-read mixed $logo
+ * @property-read mixed $docs
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCategoryId($value)
@@ -60,14 +61,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read mixed $logo
- * @property-read mixed $docs
  */
 class Initiative extends Model
 {
     protected $table = 'initiatives';
 
-    // RELATIONS
+    protected $fillable = [
+        'name', 'category_id', 'contact_id', 'url', 'logo_url', 'doc_url', 'video_url', 'start_at', 'audience_size',
+        'group_size', 'area_size', 'accepts_visits', 'location_type', 'location_id'
+    ];
+
+    protected $appends = [
+        'category_name'
+    ];
+
+    /* ******************************************
+     * ********** MODEL RELATIONS ***************
+     * ******************************************/
 
     public function category()
     {
@@ -91,15 +101,17 @@ class Initiative extends Model
 
     public function contact()
     {
-        return $this->hasOne(Contact::class, 'contact_id');
+        return $this->belongsTo(Contact::class, 'contact_id');
     }
 
     public function location()
     {
-        return $this->hasOne(Location::class, 'location_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
-    // ACCESSORS
+    /* ******************************************
+     * ********** MODEL ACCESSORS ***************
+     * ******************************************/
 
     public function getCategoryNameAttribute($value)
     {
@@ -134,13 +146,14 @@ class Initiative extends Model
 
     public function getDocsAttribute()
     {
-        $docs = [];
-        if ($this->attributes['doc_url']) $docs[] = $this->attributes['doc_url'];
+        $docs = collect();
+
+        if ($this->attributes['doc_url']) $docs->push($this->attributes['doc_url']);
 
         $dir = 'initiative/' . $this->attributes['id'] . '/docs';
-        $files = \Storage::files($dir);
-        if ($files) {
-            foreach ($files as $file) $docs[] = \Storage::url($file);
+
+        if ($files = \Storage::files($dir)) {
+            foreach ($files as $file) $docs->push(\Storage::url($file));
         }
 
         return $docs;

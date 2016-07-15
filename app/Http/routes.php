@@ -11,8 +11,15 @@
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+})->middleware('auth:api');
+/*
+ * zgoraj lahko tudi...
 Route::get('/', 'IndexController@index');
 Route::get('/initiatives', 'InitiativeController@index');
+ */
+
 
 Route::auth();
 Route::get('/auth/{provider}', 'Auth\AuthController@redirectToProvider')->name('auth.provider');
@@ -21,11 +28,13 @@ Route::get('/auth/{provider}/callback', 'Auth\AuthController@handleProviderCallb
 Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function() {
+
+    // Initiative
     Route::group(['prefix' => 'initiative'], function() {
         Route::get('/', 'InitiativeController@index')->name('initiative.index');
         Route::get('/create', 'InitiativeController@create')->name('initiative.create');
-        Route::post('/', 'InitiativeController@store')->name('initiative.store');
+        Route::match(['GET', 'POST'], '/', 'InitiativeController@store')->name('initiative.store');
+
         Route::get('/{initiative}', 'InitiativeController@find')->name('initiative.show');
     });
 });
-

@@ -5,4 +5,6 @@
 Homestead.yaml
 Homestead.json
 .env
-.idea/
+/.idea
+_ide_helper.php
+.phpstorm.meta.php

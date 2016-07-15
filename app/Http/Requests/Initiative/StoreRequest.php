@@ -14,7 +14,8 @@ class StoreRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user();
+//        return Auth::user();
+        return true;
     }
 
     /**

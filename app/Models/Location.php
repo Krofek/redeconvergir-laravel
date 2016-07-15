@@ -26,8 +26,27 @@ class Location extends Model
 {
     protected $table = 'locations';
 
+    protected $fillable = [
+        'name', 'lat', 'lng'
+    ];
+
+    protected $googleLocation;
+
     public function initiatives()
     {
         return $this->hasMany(Initiative::class, 'location_id');
+    }
+
+    /**
+     * @return \Geocoder\Result\ResultInterface|\Geocoder\Result\Geocoded
+     */
+    public function getGoogleLocation()
+    {
+        if(!$this->googleLocation) {
+            $geocode = \Geocoder::reverse($this->attributes['lat'], $this->attributes['lng']);
+            $this->googleLocation = $geocode;
+        }
+
+        return $this->googleLocation;
     }
 }

@@ -20,6 +20,8 @@
         "doctrine/dbal": "^2.5",
         "toin0u/geocoder-laravel": "@stable",
         "laravel/socialite": "^2.0",
+        "tymon/jwt-auth": "dev-develop",
+        "spatie/laravel-fractal": "^1.9",
         "alexpechkarev/google-maps": "1.0.5",
         "serverfireteam/panel": "^1.4"
     },

@@ -1,6 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Settings for the Initiative model
+ *
+ * - validation
+ * - seeders
+ * - etc.
+ *
+ *
  * User: krofek
  * Date: 7/10/16
  * Time: 4:04 PM
@@ -25,7 +31,7 @@ return [
         'status'         => 'required|in:0,1,2,3',
         'promoter'       => '',
 
-        'category_id'    => 'required|exists:initiative_categories',
+        'category_id'    => 'required|exists:initiative_categories,id',
         'category_other' => 'required_if:category_id,0',
         'contact'        => 'required|array',
         'location'       => 'required|array',
@@ -45,7 +51,7 @@ return [
 
     'input_location' => [
         'lat' => 'required',
-        'lgt' => 'required'
+        'lng' => 'required'
     ],
 
     'tags' => [
