@@ -20,9 +20,6 @@ Route::get('/auth/{provider}/callback', 'Auth\AuthController@handleProviderCallb
 
 Route::get('/home', 'HomeController@index');
 
-
-
-
 Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'initiative'], function() {
         Route::get('/', 'InitiativeController@index')->name('initiative.index');
@@ -32,6 +29,3 @@ Route::group(['middleware' => 'auth'], function() {
     });
 });
 
-Route::auth();
-
-Route::get('/home', 'HomeController@index');

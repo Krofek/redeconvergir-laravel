@@ -21,7 +21,7 @@
         "toin0u/geocoder-laravel": "@stable",
         "laravel/socialite": "^2.0",
         "alexpechkarev/google-maps": "1.0.5",
-        "laravelrus/sleepingowl": "4.*@dev"
+        "serverfireteam/panel": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -168,8 +168,8 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        'GoogleMaps\ServiceProvider\GoogleMapsServiceProvider',
-
+        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
+        Serverfireteam\Panel\PanelServiceProvider::class
     ],
 
     /*
