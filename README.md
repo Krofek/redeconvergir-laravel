@@ -25,4 +25,5 @@ Development works best with [Laravel Homestead](https://laravel.com/docs/master/
     * based on [Laravel Panel](http://laravelpanel.com/docs/master/get-started), which also incorporates CRUD generator
     * currently solving problems with with having controllers in Controllers/Admin/ namespace (in subfolder) while models are in app/Models/ so that things don't get messy
     * notes on the process of creating CRUD for a model coming soon
+    * also authorization for Panel would be good if it were done with Laravel's Auth.
 
