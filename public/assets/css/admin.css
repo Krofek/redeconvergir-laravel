@@ -1,0 +1,27 @@
+.box-sector{
+    clear:both
+}
+.box-sector-header{
+    border-bottom: 1px solid #f4f4f4;
+    border-top: 1px solid #d2d6de;
+    display: block;
+    padding: 10px;
+    margin: 0px 5px 10px 5px;
+    background: #f5f5f5;
+}
+.box-sector .box-sector-header h3{
+    font-size: 16px;
+    margin: 0;
+    color: #444;
+}
+.grouped-box-radios{
+    margin: 8px 0 8px 0
+}
+.grouped-box-existing, .grouped-box-new{
+    clear:both;
+    overflow: hidden;
+}
+/*.form-group{*/
+    /*overflow: hidden;*/
+    /*clear: both;*/
+/*}*/

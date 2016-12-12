@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\InitiativeRepositoryInterface;
 use App\Repositories\InitiativeRepository;
+use App\Services\EventService;
 use App\Services\InitiativeService;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +17,7 @@ class InitiativeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 
     /**
@@ -28,7 +29,9 @@ class InitiativeServiceProvider extends ServiceProvider
     {
         $this->app->bind('App\Interfaces\InitiativeRepositoryInterface', 'App\Repositories\InitiativeRepository');
 
-//        $this->app->singleton(InitiativeService::class);
+        $this->app->singleton(InitiativeService::class);
+        $this->app->singleton(EventService::class);
+
     }
 
 //    /**

@@ -3,7 +3,10 @@
 namespace App\Http\Requests\Initiative;
 
 use App\Http\Requests\Request;
-use Auth;
+use App\Models\Initiative;
+use App\Models\User;
+use Gate;
+use Illuminate\Contracts\Validation\Validator;
 
 class StoreRequest extends Request
 {
@@ -14,8 +17,7 @@ class StoreRequest extends Request
      */
     public function authorize()
     {
-//        return Auth::user();
-        return true;
+        return Gate::allows('create', Initiative::class);
     }
 
     /**
@@ -25,16 +27,19 @@ class StoreRequest extends Request
      */
     public function rules()
     {
-        $rules = config('rede_initiative.input');
-
-        $contact = [];
-        foreach(config('rede_initiative.input_contact') as $key => $value) $contact['contact.'.$key] = $value;
-
-        $location = [];
-        foreach(config('rede_initiative.input_location') as $key => $value) $location['location.'.$key] = $value;
-
-        $rules = array_merge($rules, $contact, $location);
-
+        $rules = config('initiatives.input');
+        // on update, exclude id of initiative being updated from unique names list
+        if(!empty($this->get('id'))){
+            $rules['name'] .= ',' . $this->get('id');
+        }
         return $rules;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function formatErrors(Validator $validator)
+    {
+        return $validator->errors()->all();
     }
 }

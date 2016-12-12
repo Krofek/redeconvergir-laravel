@@ -189,16 +189,16 @@ class InitiativeTest extends TestCase
             /** @var Initiative $initiative */
             foreach($temp as $initiative) {
                 if($category->name === 'other') $initiative->otherCategory()->save(factory(App\Models\Initiative\Category\Other::class)->make());
-                $tagsArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.tags')) - 1, random_int(1, 6));
+                $tagsArray = UniqueRandomNumbersWithinRange(0, count(config('initiatives.tags')) - 1, random_int(1, 6));
                 foreach($tagsArray as $tag) {
-                    $name = config('rede_initiative.tags')[$tag];
+                    $name = config('initiatives.tags')[$tag];
                     /** @var Tag $t */
                     $t = $initiative->tags()->create(['name' => $name]);
                     if($name === 'other') $t->other()->save(factory(App\Models\Initiative\Tag\Other::class)->make());
                 }
-                $audienceArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative.audience')) - 1, random_int(1, 5));
+                $audienceArray = UniqueRandomNumbersWithinRange(0, count(config('initiatives.audience')) - 1, random_int(1, 5));
                 foreach($audienceArray as $audience) {
-                    $name = config('rede_initiative.audience')[$audience];
+                    $name = config('initiatives.audience')[$audience];
                     /** @var Audience $a */
                     $a = $initiative->audience()->create(compact('name'));
                     if($name === 'other') $a->other()->save(factory(App\Models\Initiative\Audience\Other::class)->make());
@@ -231,7 +231,7 @@ class InitiativeTest extends TestCase
                 $intArray = $randomCategories->pluck('id')->toArray();
             }
             else {
-                $intArray = UniqueRandomNumbersWithinRange(0, count(config('rede_initiative')[$filter]) - 1, random_int(1, 3));
+                $intArray = UniqueRandomNumbersWithinRange(0, count(config('initiatives')[$filter]) - 1, random_int(1, 3));
             }
 
             $request = Request::create(null, 'POST', [ $filter => $intArray ]);
@@ -244,13 +244,13 @@ class InitiativeTest extends TestCase
                     }
                     elseif(in_array($filter, ['location_type', 'audience_size'])) {
                         $names = [];
-                        foreach($intArray as $int) $names[] = config('rede_initiative')[$filter][$int];
+                        foreach($intArray as $int) $names[] = config('initiatives')[$filter][$int];
                         $this->assertContains($result->$filter, $names);
                     }
                     else {
                         // check if at least one of them params exists in array
                         $names = collect();
-                        if($intArray) foreach($intArray as $int) $names->push(config('rede_initiative')[$filter][$int]);
+                        if($intArray) foreach($intArray as $int) $names->push(config('initiatives')[$filter][$int]);
                         if($result->$filter) {
                             $this->assertGreaterThan(
                                 0,

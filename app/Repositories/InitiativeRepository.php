@@ -11,6 +11,10 @@ namespace App\Repositories;
 
 use App\Interfaces\InitiativeRepositoryInterface;
 use App\Models\Initiative;
+use App\Models\Initiative\Contact;
+use App\Models\User;
+use App\Services\InitiativeService;
+use App\Services\LocationService;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +39,40 @@ class InitiativeRepository implements InitiativeRepositoryInterface
 
     public function find($id)
     {
-        return $this->initiative->find($id);
+        return $this->initiative->findOrFail($id);
+    }
+
+    /**
+     * Returns a collection of Initiative objects which some user is authorized to manage.
+     *
+     * @param User $user
+     * @return \Illuminate\Database\Eloquent\Collection|null|static[]
+     */
+    public function getManageableForUser(User $user)
+    {
+        if (!$user) return null;
+
+        if ($user->can('manage initiatives')) {
+            return $this->initiative->all();
+        } else {
+            return $user->initiatives()->get();
+        }
+    }
+
+    /**
+     * Returns a collection of Initiative objects which are within a given coordinate boundary
+     * @param \stdClass $boundary
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function withinBoundary($boundary)
+    {
+        $lat = [$boundary->south, $boundary->north];
+        $lng= [$boundary->west, $boundary->east];
+        return $this->initiative->with(['categories'])->whereHas('locations', function ($query) use($lat, $lng){
+            $query
+                ->whereBetween('locations.lat', $lat)
+                ->whereBetween('locations.lng', $lng);
+        })->get();
     }
 
     /**
@@ -85,7 +122,7 @@ class InitiativeRepository implements InitiativeRepositoryInterface
     private function filterManyToOne(&$results, $type, Request $request)
     {
         $names = [];
-        foreach ($request->input($type) as $row) $names[] = config('rede_initiative.' . $type)[$row];
+        foreach ($request->input($type) as $row) $names[] = config('initiatives.' . $type)[$row];
         return $results->whereHas($type, function ($query) use ($names) {
             /** @var Eloquent $query */
             $query->whereIn('name', $names);
@@ -98,7 +135,8 @@ class InitiativeRepository implements InitiativeRepositoryInterface
      * @param Request $request
      * @return $this
      */
-    private function filterOneToOne(&$results, $type, Request $request) {
+    private function filterOneToOne(&$results, $type, Request $request)
+    {
         return $results->whereIn($type, $request->input($type));
     }
 }

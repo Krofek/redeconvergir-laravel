@@ -9,17 +9,117 @@
 namespace App\Services;
 
 
-use App\Models\Contact;
 use App\Models\Initiative;
 use App\Models\Initiative\Audience;
 use App\Models\Initiative\Category;
+use App\Models\Initiative\Contact;
 use App\Models\Initiative\Tag;
 use App\Models\Location;
+use App\Repositories\InitiativeRepository;
+use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class InitiativeService
 {
+    /**
+     * C R U D
+     * -------
+     * Location, audience and contact are non-standard Backpack\CRUD fields and must thus be treated differently.
+     * Methods are defined in Services\InitiativeService and Repositories\InitiativeRepository.
+     *
+     * Crud create
+     * @param array $data
+     * @return Initiative
+     */
+    public function crudCreate($data){
+        $data = static::prepareData($data);
+        $initiative = \DB::transaction(function () use ($data) {
+            /** @var Initiative $initiative */
+            $initiative = Initiative::create($data);
+            /**
+             * TODO:
+             * - create url
+             */
+            $contact = new Contact($data['contact']);
+            $initiative->contact()->save($contact);
+            /** @var Location $location */
+            # in future, $data['locations'] will be array of JSON strings because one initiative will be able to have multiple locations
+            $location = LocationService::whereJsonOrFirst($data['locations']);
+            $initiative->locations()->sync([$location->id]);
+            $audience = static::audienceForSync($data['audience'], $data['audience_other']);
+            $initiative->audience()->sync($audience);
+            $initiative->categories()->sync($data['categories']);
+            $initiative->users()->attach(Auth::user()->id);
+            return $initiative;
+        });
+        return $initiative;
+    }
+
+    /**
+     * @param array $data
+     * @param Initiative $initiative
+     * @return Initiative
+     */
+    public function crudUpdate($initiative, $data){
+        $data = static::prepareData($data);
+        $initiative = \DB::transaction(function () use ($data, $initiative) {
+            $initiative->contact->update($data['contact']);
+            /** @var Location $location */
+            # in future, $data['locations'] will be array of JSON strings because one initiative will be able to have multiple locations
+            $location = LocationService::whereJsonOrFirst($data['locations']);
+            $initiative->locations()->sync([$location->id]);
+            $initiative->audience()->sync(InitiativeService::audienceForSync($data['audience'], $data['audience_other']));
+            $initiative->categories()->sync($data['categories']);
+            $initiative->update($data);
+            // TODO: making it possible for other users to edit event
+            return $initiative;
+        });
+
+        return $initiative;
+    }
+
+    /**
+     * Prepares array if audience ids for sync with potential "name" column filled out for "Other" audience.
+     *
+     * @param array $audience
+     * @param string $audience_other
+     * @return array
+     */
+    public static function audienceForSync($audience, $audience_other = NULL)
+    {
+        if($audience_other != NULL){
+            $other_id = config('initiatives.audience_other_id');
+            $return = [$other_id => ['name' => $audience_other]];
+            foreach ($audience as $id){
+                $return[] = $id;
+            }
+        }else{
+            $return = $audience;
+        }
+        return $return;
+    }
+
+    /**
+     * Adds empty array values for audience and categories when no multiple-select option is chosen.
+     * (Multiple select form element does not get submitted at all (not even as empty array).)
+     * Also, creates url slug.
+     *
+     * @param array $data
+     * @return array
+     */
+    public static function prepareData($data)
+    {
+        if(!isset($data['categories'])){
+            $data['categories'] = [];
+        }
+        if(!isset($data['audience'])){
+            $data['audience'] = [];
+        }
+        $data['url'] = str_slug($data['name']);
+        return $data;
+    }
 
     /**
      * Create a contact, create a new location, create initiative with contact and location.
@@ -66,7 +166,7 @@ class InitiativeService
         if (!empty($tags)) {
             foreach ($tags as $inputTag) {
                 /** @var Tag $tag */
-                $tag = $initiative->tags()->create(['name' => config('rede_initiative.tags')[$inputTag]]);
+                $tag = $initiative->tags()->create(['name' => config('initiatives.tags')[$inputTag]]);
                 if ($inputTag === 0) $tag->other()->create(['name' => $request->input('tags_other')]);
             }
         }
@@ -84,7 +184,7 @@ class InitiativeService
         if (!empty($audience)) {
             foreach ($audience as $inputAudience) {
                 /** @var Audience $member */
-                $member = $initiative->audience()->create(['name' => config('rede_initiative.audience')[$inputAudience]]);
+                $member = $initiative->audience()->create(['name' => config('initiatives.audience')[$inputAudience]]);
                 if ($inputAudience === 0) $member->other()->create(['name' => $request->input('audience_other')]);
             }
         }

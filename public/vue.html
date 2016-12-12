@@ -1,0 +1,66 @@
+<html>
+<head>
+    <style>
+        button.completed {
+            background-color: green;
+            color: #FFF;
+        }
+
+        button.incompleted {
+            background-color: red;
+            color: #FFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <h1>All tasks</h1>
+        <ul>
+            <li v-for="(task, key) in tasks">
+                {{ task.description }}
+                <button :class="{ 'completed' : task.completed, 'incompleted': !task.completed }" @click="toggleComplete(key)">o</button>
+            </li>
+        </ul>
+
+        <h1>Completed tasks</h1>
+        <ul>
+            <li v-for="task in completedTasks" v-text="task.description"></li>
+        </ul>
+
+        <h1>Incompleted tasks</h1>
+        <ul>
+            <li v-for="task in incompletedTasks" v-text="task.description"></li>
+        </ul>
+    </div>
+
+    <script src="/assets/js/app.js"></script>
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+                tasks: [
+                    { description: "Go to the store", completed: true },
+                    { description: "Finish the screencast", completed: true },
+                    { description: "Make donation", completed: false },
+                    { description: "Clear inbox", completed: false },
+                    { description: "Make dinner", completed: true },
+                    { description: "Clean room", completed: false },
+                ],
+            },
+            computed: {
+                completedTasks() {
+                    return this.tasks.filter(task => task.completed);
+                },
+                incompletedTasks() {
+                    return this.tasks.filter(task => !task.completed);
+                },
+            },
+            methods: {
+                toggleComplete(key) {
+                    this.tasks[key].completed = this.tasks[key].completed ? false : true;
+                },
+            },
+        });
+    </script>
+</body>
+</html>

@@ -5,12 +5,25 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^5.0.0",
-    "bootstrap-sass": "^3.3.0"
+    "jquery": "^3.1.0",
+    "laravel-elixir": "6.0.0-15",
+    "laravel-elixir-vue-2": "^0.3.0",
+    "laravel-elixir-webpack-official": "^1.0.10",
+    "lodash": "^4.16.2",
+    "node-sass": "^4.0.0",
+    "scss-loader": "0.0.1",
+    "vue": "2.1.4",
+    "vue-resource": "^1.0.3"
   },
   "dependencies": {
     "gulp-imagemin": "^3.0.1",
-    "imagemin-pngquant": "^5.0.0"
+    "imagemin-pngquant": "^5.0.0",
+    "laravel-elixir-vue-2": "^0.3.0",
+    "marker-clusterer-plus": "^2.1.4",
+    "vue-i18n": "^4.8.0",
+    "vue-router": "^2.1.1",
+    "vue2-google-maps": "^0.4.2"
   }
 }

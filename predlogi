@@ -1,0 +1,28 @@
+Maps:
+- GooglMapper as laravel backend plugin for:
+-- creating html and js for Google Map (v3 JS API: https://developers.google.com/maps/documentation/javascript/reference)
+-- supplying javascript with JS function names that fire on specific events
+-- 
+- Events:
+-- bounds_changed -> change initiatives in list to match current map boundaries
+--
+
+https://github.com/bradcornford/Googlmapper
+https://developers.google.com/maps/documentation/javascript/reference
+http://rede.local/bootswatch#
+https://developers.google.com/maps/documentation/javascript/events
+
+
+
+Socialite:
+- chat between users?
+- posts/comments?
+
+
+
+Micelij?
+Micelij je nevrološko omrežje narave. Prepleni mozaiki hif razprostrejo gozdna tla - micelij se odziva na zunanje spremembe in pri izvajanju svojih funkcij deluje v prid gostujočemu ekosistemu. Ostaja v stalni komunikaciji s svojim okoljem in tako oblikuje raznolike encimatske in biokemične odzive na zahtevne izzive okolja.
+
+
+
+Micelij je platforma, ki skupinam s sonaravnimi dejavnostmi omogoča 

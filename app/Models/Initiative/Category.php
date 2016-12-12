@@ -3,6 +3,7 @@
 namespace App\Models\Initiative;
 
 use App\Models\Initiative;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \App\Models\Initiative $initiative
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Initiative[] $initiatives
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Category whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Category whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative\Category whereDescription($value)
@@ -23,14 +24,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    protected $table = 'initiative_categories';
+    use CrudTrait;
+    protected $table = 'categories';
 
     protected $fillable = [
         'name', 'description'
     ];
 
-    public function initiative()
+    public function initiatives()
     {
-        return $this->belongsTo(Initiative::class, 'initiative_id');
+        return $this->belongsToMany(Initiative::class, 'initiative_category');
     }
 }

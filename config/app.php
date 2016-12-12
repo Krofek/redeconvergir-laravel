@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\CustomCrudServiceProvider;
+
 return [
 
     /*
@@ -172,8 +174,24 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
-        Serverfireteam\Panel\PanelServiceProvider::class
+        Backpack\Base\BaseServiceProvider::class,
+        Backpack\CRUD\CrudServiceProvider::class,
+        Backpack\Generators\GeneratorsServiceProvider::class,
+        Backpack\Settings\SettingsServiceProvider::class,
+        Backpack\MenuCRUD\MenuCRUDServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Backpack\PageManager\PageManagerServiceProvider::class,
+        Backpack\LangFileManager\LangFileManagerServiceProvider::class,
+        Backpack\PermissionManager\PermissionManagerServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
+        Backpack\BackupManager\BackupManagerServiceProvider::class,
+//        Cornford\Googlmapper\MapperServiceProvider::class,
+        MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
+
+        App\Providers\AdminServiceProvider::class,
+
     ],
 
     /*
@@ -227,7 +245,9 @@ return [
         'Geocoder'            => Toin0u\Geocoder\Facade\Geocoder::class,
         'Socialite'           => Laravel\Socialite\Facades\Socialite::class,
         'GoogleMaps'          => GoogleMaps\Facade\GoogleMapsFacade::class,
-        'JWTAuth'             => Tymon\JWTAuth\Facades\JWTAuth::class
+        'JWTAuth'             => Tymon\JWTAuth\Facades\JWTAuth::class,
+//        'Backpack\CRUD\PanelTraits\Read' => \App\Extensions\Backpack\CRUD\PanelTraits\Read::class,
+//        'Mapper'              => Cornford\Googlmapper\Facades\MapperFacade::class,
     ],
 
 ];

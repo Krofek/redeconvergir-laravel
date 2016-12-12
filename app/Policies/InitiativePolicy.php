@@ -11,17 +11,35 @@ class InitiativePolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Those who manage initiatives can create, update and delete them.
      *
-     * @return void
+     * @param User $user
+     * @return bool|null
      */
-    public function __construct()
+    public function before(User $user)
     {
-        //
+        return $user->can('manage initiatives') ? true : null; # muy importante "null"
     }
 
+    /**
+     * Only users in charge of initiative can update them.
+     *
+     * @param User $user
+     * @param Initiative $initiative
+     * @return bool
+     */
     public function update(User $user, Initiative $initiative)
     {
-        return $initiative->user_id === $user->id;
+        return !$initiative->users->where('id', $user->id)->isEmpty();
+    }
+
+    /**
+     * Logged in users can create initiatives.
+     *
+     * @return bool
+     */
+    public function create()
+    {
+        return \Auth::check();
     }
 }

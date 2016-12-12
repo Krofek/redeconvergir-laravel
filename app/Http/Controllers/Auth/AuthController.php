@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Auth;
+use Illuminate\Auth\Access\AuthorizationException;
 use Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -79,30 +80,35 @@ class AuthController extends Controller
 
     public function handleProviderCallback($provider)
     {
+        if(!in_array($provider, ['facebook', 'google'])){
+            throw new AuthorizationException('Social authentication only possible with facebook or google.');
+        }
+        /** @var \Laravel\Socialite\Two\User $socialUser */
         $socialUser = Socialite::driver($provider)->user();
-
         $user = User::whereEmail($socialUser->getEmail())->first();
-
-        if($user) {
+        if($user){
             $user->update(['name' => $socialUser->getName()]);
             $profile = $user->profile;
-            $profile->photo_url = $socialUser->getAvatar();
-            $profile->save();
-            Auth::login($user);
-
-
-        }
-        else {
-            if($provider === 'github') {
-                $user = User::create(['name' => $socialUser->getName(), 'email' => $socialUser->getEmail()]);
-
-                /** @var \App\Models\User\Profile $userProfile */
-                $userProfile = $user->profile()->create([]);
-                $userProfile->photo_url = $socialUser->getAvatar();
-                $userProfile->save();
+            if(!$profile){
+                $user->profile()->create([
+                    'photo_url' => $socialUser->getAvatar(),
+                    $provider => $socialUser->getId()
+                ])->save();
             }
+        }else{
+            $user = User::create([
+                'name' => $socialUser->getName(),
+                'email' => $socialUser->getEmail()
+            ]);
+            /** @var \App\Models\User\Profile $userProfile */
+            $userProfile = $user->profile()->create([
+                'photo_url' => $socialUser->getAvatar(),
+                $provider => $socialUser->getId()
+            ]);
+            $userProfile->save();
         }
 
+        Auth::login($user);
         return redirect()->to('/');
     }
 }

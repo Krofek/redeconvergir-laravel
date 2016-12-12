@@ -5,7 +5,7 @@ return [
     /*
      * The destination path for the javascript file.
      */
-    'path' => 'public/js',
+    'path' => 'resources/assets/js/generated',
 
     /*
      * The destination filename for the javascript file.
@@ -40,7 +40,7 @@ return [
      * Set here your controller namespace (see RouteServiceProvider -> $namespace) for cleaner action calls
      * e.g. 'App\Http\Controllers'
      */
-    'action_namespace' => '',
+    'action_namespace' => 'App\Http\Controllers',
 
     /*
      * The path to the template `laroute.js` file. This is the file that contains
