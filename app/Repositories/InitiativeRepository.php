@@ -27,9 +27,9 @@ class InitiativeRepository implements InitiativeRepositoryInterface
      */
     protected $initiative;
 
-    public function __construct(Initiative $initiative)
+    public function __construct()
     {
-        $this->initiative = $initiative;
+        $this->initiative = new Initiative();
     }
 
     public function getAll()
@@ -68,7 +68,7 @@ class InitiativeRepository implements InitiativeRepositoryInterface
     {
         $lat = [$boundary->south, $boundary->north];
         $lng= [$boundary->west, $boundary->east];
-        return $this->initiative->with(['categories'])->whereHas('locations', function ($query) use($lat, $lng){
+        return $this->initiative->with(['categories', 'locations'])->whereHas('locations', function ($query) use($lat, $lng){
             $query
                 ->whereBetween('locations.lat', $lat)
                 ->whereBetween('locations.lng', $lng);
@@ -139,4 +139,5 @@ class InitiativeRepository implements InitiativeRepositoryInterface
     {
         return $results->whereIn($type, $request->input($type));
     }
+
 }

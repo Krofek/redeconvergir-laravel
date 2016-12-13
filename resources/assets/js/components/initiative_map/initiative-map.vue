@@ -59,7 +59,8 @@
 
                 this.$http.post(url, {boundaries: JSON.stringify(bounds)}).then((response) => {
                     console.log(response.body);
-                    this.initiatives = response.body
+                    this.initiatives = response.body.initiatives;
+                    this.markers = response.body.markers;
                 }, (response) => {
                     console.log(response)
                 })
@@ -68,11 +69,6 @@
         computed: {
             mapObject() {
                 return this.$refs['vgm-map'].$mapObject;
-            },
-            markers() {
-                this.initiative.forEach((initiative) => {
-
-                })
             }
         },
         components: {

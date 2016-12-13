@@ -28,6 +28,7 @@ class InitiativeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Interfaces\InitiativeRepositoryInterface', 'App\Repositories\InitiativeRepository');
+        $this->app->bind('App\Interfaces\LocationRepositoryInterface', 'App\Repositories\LocationRepository');
 
         $this->app->singleton(InitiativeService::class);
         $this->app->singleton(EventService::class);

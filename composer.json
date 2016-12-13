@@ -9,13 +9,13 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "^5.3.4",
         "mcamara/laravel-localization": "1.1.*",
         "barryvdh/laravel-ide-helper": "^2.2",
         "lord/laroute": "2.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "intervention/image": "^2.3",
-        "laravelcollective/html": "5.2.*",
+        "laravelcollective/html": "5.3.*",
         "predis/predis": "^1.1",
         "doctrine/dbal": "^2.5",
         "toin0u/geocoder-laravel": "@stable",
@@ -23,8 +23,8 @@
         "tymon/jwt-auth": "dev-develop",
         "spatie/laravel-fractal": "^1.9",
         "alexpechkarev/google-maps": "1.0.5",
-        "backpack/base": "0.6.x",
-        "backpack/crud": "3.0.x",
+        "backpack/base": "^0.7",
+        "backpack/crud": "^3.1.20",
         "serverfireteam/panel": "^1.5",
         "backpack/generators": "^1.1",
         "backpack/settings": "^2.0",
@@ -36,14 +36,15 @@
         "cornford/googlmapper": "^2.19",
         "laracasts/utilities": "^2.1",
         "backpack/newscrud": "^2.1",
-        "martinlindhe/laravel-vue-i18n-generator": "^0.1.7"
+        "martinlindhe/laravel-vue-i18n-generator": "^0.1.7",
+        "laravel/scout": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
-        "symfony/css-selector": "2.8.*|3.0.*",
-        "symfony/dom-crawler": "2.8.*|3.0.*"
+        "symfony/css-selector": "3.1.*",
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [

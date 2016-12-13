@@ -6,7 +6,9 @@ use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
 use App\Repositories\InitiativeRepository;
 use App\Services\EventService;
+use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Illuminate\Routing\Router;
 use Redirect;
 
 class EventCrudController extends CrudController
@@ -14,11 +16,12 @@ class EventCrudController extends CrudController
 
     protected $service;
     protected $initiative;
+    protected $user;
 
-    public function __construct(EventService $eventService, InitiativeRepository $initiative)
+    public function setup()
     {
-        $this->initiative = $initiative;
-        $this->service = $eventService;
+        $this->initiative = new InitiativeRepository();
+        $this->service = new EventService();
         parent::__construct();
 
         $this->crud->setModel('App\Models\Event');
@@ -58,10 +61,10 @@ class EventCrudController extends CrudController
             'label'     => 'Organizators (initiatives)',
             'type'      => 'select2_multiple',
             'entity'    => 'initiative',
-            'options'   => $this->initiative->getManageableForUser(\Auth::user()),
+            'options'   => $this->initiative->getManageableForUser(Auth::user()),
             'model'     => 'App\Models\Initiative',
             'attribute' => 'name',
-            'hint'      => 'You can add only initiatives that you (' . \Auth::user()->name . ') manage.',
+            'hint'      => 'You can add only initiatives that you (' . Auth::user()->name . ') manage.',
             'pivot'     => true
         ]);
         $this->crud->addField([

@@ -189,6 +189,7 @@ return [
         Backpack\BackupManager\BackupManagerServiceProvider::class,
 //        Cornford\Googlmapper\MapperServiceProvider::class,
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
 
         App\Providers\AdminServiceProvider::class,
 
