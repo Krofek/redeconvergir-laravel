@@ -8,8 +8,8 @@
                 :zoom="zoom"
                 :map-type-id="mapTypeId"
                 :options="options"
-                @idle="fetchInitiatives"
                 ref="vgm-map"
+                @idle="fetchInitiatives"
         >
             <vgm-marker
                     v-for="m in markers"
@@ -43,19 +43,22 @@
                 markers: [{
                     position: {lat: 11.0, lng: 11.0}
                 }],
-                initiatives: []
             }
         },
         props: {
             init: {
                 required: true,
                 type: Object
+            },
+            initiatives: {
+                required: true,
+                type: Array // array of objects
             }
         },
         methods: {
             fetchInitiatives() {
                 var bounds = this.mapObject.getBounds();
-                var url = laroute.action('api::initiatives');
+                var url = laroute.action('api::initiatives-list-items');
 
                 this.$http.post(url, {boundaries: JSON.stringify(bounds)}).then((response) => {
                     console.log(response.body);

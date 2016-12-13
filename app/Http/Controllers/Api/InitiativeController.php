@@ -20,18 +20,25 @@ class InitiativeController extends Controller
         $this->location = $location;
     }
 
-    public function index(Request $request)
-    {
+//    /**
+//     * Apply boundaries given in form array('south' => ..., 'west' => ..., ...)
+//     */
+//    $boundaries = json_decode($request->input('boundaries'));
+//    $initiatives = $this->initiative->withinBoundary($boundaries);
 
-        /**
-         * Apply boundaries given in form array('south' => ..., 'west' => ..., ...)
-         */
-        $boundaries = json_decode($request->input('boundaries'));
-        $initiatives = $this->initiative->withinBoundary($boundaries);
-        $markers = $this->location->mapMarkers()->all();
+    public function markers(Request $request)
+    {
+        $markers = $this->location->mapMarkers(); #pass filters here
+        return \Response::json([
+            'markers'     => $markers
+        ]);
+    }
+
+    public function listItems(Request $request)
+    {
+        $initiatives = $this->initiative->mapListItems();
         return \Response::json([
             'initiatives' => $initiatives,
-            'markers'     => $markers
         ]);
     }
 }

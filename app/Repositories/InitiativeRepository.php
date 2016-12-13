@@ -59,8 +59,21 @@ class InitiativeRepository implements InitiativeRepositoryInterface
         }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | API & AJAX Methods
+    |--------------------------------------------------------------------------
+    |
+    | Here are collected the methods used in Controllers\Api namespace, which
+    | means they probably get used by controllers called in ajax requests.
+    |
+    */
+
     /**
-     * Returns a collection of Initiative objects which are within a given coordinate boundary
+     * Returns a collection of Initiative objects which are within a given coordinate boundary.
+     * TODO ta metoda najbrz ne bo pogosto koriscena ker lahko napravimo vue computed property za list iteme
+     * http://stackoverflow.com/questions/3648545/how-can-i-check-the-marker-is-or-isnt-in-the-bounds-using-google-maps-v3
+     *
      * @param \stdClass $boundary
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
@@ -73,6 +86,31 @@ class InitiativeRepository implements InitiativeRepositoryInterface
                 ->whereBetween('locations.lat', $lat)
                 ->whereBetween('locations.lng', $lng);
         })->get();
+    }
+
+    /**
+     * Returns array of filtered (to-do) initiatives' columns (the latter are specified in "only" call).
+     * Todo: ustvari novo metodo za klic metod od ->get()-map()..., saj jo boš uporabil še npr pri withinBoundary
+
+     *
+     * @return array
+     */
+    public function mapListItems()
+    {
+        $initiatives = $this->initiative->with([
+            'categories' => function ($query){
+                $query->select('id', 'name');
+            },
+            'locations' => function ($query){
+                $query->select('id', 'lat', 'lng');
+            }
+        ])->get()->map(function (Initiative $initiative) {
+            return collect($initiative)
+                ->only(['id', 'name', 'url', 'logo_url', 'categories', 'locations'])
+                ->all();
+        });
+
+        return $initiatives;
     }
 
     /**

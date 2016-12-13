@@ -24,6 +24,7 @@
     "marker-clusterer-plus": "^2.1.4",
     "vue-i18n": "^4.8.0",
     "vue-router": "^2.1.1",
-    "vue2-google-maps": "^0.4.2"
+    "vue2-google-maps": "^0.4.2",
+    "vuex": "^2.0.0"
   }
 }
