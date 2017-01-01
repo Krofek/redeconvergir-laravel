@@ -191,6 +191,7 @@ return [
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
 
+        App\Providers\ElasticsearchEngineProvider::class,
         App\Providers\AdminServiceProvider::class,
 
     ],

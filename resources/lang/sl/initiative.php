@@ -3,7 +3,10 @@
  return [
      "map" => [
          'sidebar' => [
-             'search' => ['placeholder' => 'Iskanje po iniciativah ...']
+             'search' => [
+                 'placeholder' => 'Iskanje po iniciativah ...',
+                 'action' => 'Išči'
+             ]
          ]
      ],
     "location_type" => [

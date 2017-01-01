@@ -25,10 +25,8 @@ class InitiativeMapController extends Controller
     public function index(Request $request)
     {
         $init = config('initiatives_map.init');
-        $initiatives = $this->initiative->mapListItems();
         return view('initiatives', [
-            'init'        => json_encode($init),
-            'initiatives' => json_encode($initiatives)
+            'init' => json_encode($init),
         ]);
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Initiative\Audience
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at

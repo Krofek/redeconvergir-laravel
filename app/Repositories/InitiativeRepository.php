@@ -12,12 +12,15 @@ namespace App\Repositories;
 use App\Interfaces\InitiativeRepositoryInterface;
 use App\Models\Initiative;
 use App\Models\Initiative\Contact;
+use App\Models\Location;
 use App\Models\User;
 use App\Services\InitiativeService;
 use App\Services\LocationService;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 
 class InitiativeRepository implements InitiativeRepositoryInterface
@@ -88,30 +91,45 @@ class InitiativeRepository implements InitiativeRepositoryInterface
         })->get();
     }
 
+//        /**
+//         * test
+//         */
+//        $b = (object) array(
+//            "south" => 45.701191879965,
+//            "west" => 12.427920960938,
+//            "north" => 46.691652809187,
+//            "east" => 17.185001039063,
+//        );
+//        $o = $this->initiative->mapListItems($b);
     /**
      * Returns array of filtered (to-do) initiatives' columns (the latter are specified in "only" call).
-     * Todo: ustvari novo metodo za klic metod od ->get()-map()..., saj jo boš uporabil še npr pri withinBoundary
-
+     * Where selectRaw is called, what the query does is selects a fake column in which we see if location
+     * is within given boundaries (within_boundary => true/false).
      *
+     * @param $boundary
      * @return array
      */
-    public function mapListItems()
+    public function mapListItems($boundary)
     {
         $initiatives = $this->initiative->with([
             'categories' => function ($query){
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'description');
             },
-            'locations' => function ($query){
-                $query->select('id', 'lat', 'lng');
+            'locations' => function ($query) use ($boundary){
+                $query->select('id', 'lat', 'lng')
+                    ->selectRaw('(CASE WHEN (lat BETWEEN ? AND ?) AND (lng BETWEEN ? AND ?) THEN 1 ELSE 0 END) AS within_boundary', [
+                        'latSouth' => $boundary->south,
+                        'latNorth' => $boundary->north,
+                        'lngWest' => $boundary->west,
+                        'lngEast' => $boundary->east
+                    ]);
             }
-        ])->get()->map(function (Initiative $initiative) {
-            return collect($initiative)
-                ->only(['id', 'name', 'url', 'logo_url', 'categories', 'locations'])
-                ->all();
-        });
+        ])->get();
 
-        return $initiatives;
+        return InitiativeService::prepareForApi($initiatives);
     }
+
+
 
     /**
      * filter by:

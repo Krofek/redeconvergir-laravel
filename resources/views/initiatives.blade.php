@@ -2,7 +2,7 @@
 
 @section('map')
     {{--    {!! Mapper::render(0) !!}--}}
-    <initiative-map :init="{{ $init }}" :initiatives="{{ $initiatives }}"></initiative-map>
+    <initiative-map ref="initiative-map" :init="{{ $init }}"></initiative-map>
 @endsection()
 
 @section('content')

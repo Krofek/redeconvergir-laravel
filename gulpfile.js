@@ -49,8 +49,6 @@ elixir(function (mix) {
         paths.SOURCE + 'js/generated/laroute.js',
         paths.BOWER + 'jquery/dist/jquery.min.js',
         paths.BOWER + 'bootstrap/dist/js/bootstrap.min.js',
-        // paths.BOWER + 'fontawesome-markers/fontawesome-markers.min.js',
-
     ], paths.DESTINATION + 'js/build.js');
 
     mix.styles([

@@ -1,6 +1,6 @@
 <!--suppress CssUnknownTarget -->
 <template>
-    <a href="#" class="list-group-item">
+    <a href="#" class="list-group-item" :class="{disabled: !initiative.within_bounds, active: isActive}" @click="clickInitiative(initiative)">
         <div class="list-group-item-left">
             <img :src="initiative.logo_url" :alt="initiative.name" class="list-group-item-image img-thumbnail">
         </div>
@@ -11,28 +11,48 @@
                     <li v-for="c in initiative.categories">{{ c.name }}</li>
                 </ul>
             </div>
-            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit. Escuchere jebemti mater pojeban text. Escuchere jebemti mater pojeban text.</p>
+            <p class="list-group-item-text">{{ initiative.short_description }}</p>
         </div>
     </a>
 </template>
 
-<script>
+<script type="text/babel">
+    import {mapGetters} from 'vuex'
+
     export default{
         props: {
             initiative: {
                 required: true,
                 type: Object
+            },
+            isTop: {
+                type: Boolean,
+                default: false
             }
         },
         data(){
-            return{
-
+            return {
+                id: {
+                    type: Number
+                }
             }
+        },
+        methods: {
+            clickInitiative(initiative) {
+                this.$store.dispatch('clickInitiative', initiative);
+                return false;
+            }
+        },
+        computed: {
+            isActive() {
+                return this.isTop || (this.initiative.id in this.focusedInitiatives)
+            },
+            ...mapGetters(['focusedInitiatives'])
         }
     }
 </script>
 
-<style scoped lang="sass" rel="stylesheet/scss">
+<style lang="sass" rel="stylesheet/scss">
     @import "resources/assets/sass/variables";
     @import "resources/assets/sass/mixins";
 

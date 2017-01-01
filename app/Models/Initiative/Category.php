@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Initiative\Category
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property \Carbon\Carbon $created_at

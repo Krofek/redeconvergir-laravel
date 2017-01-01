@@ -7,33 +7,34 @@ use App\Models\Initiative\Category;
 use App\Models\Initiative\Contact;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Models\Initiative
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $description
- * @property integer $status
+ * @property int $status
  * @property string $url
  * @property string $logo_url
  * @property string $video_url
  * @property string $start_at
- * @property integer $audience_size
- * @property integer $group_size
- * @property string $promoter
+ * @property int $audience_size
+ * @property int $group_size
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property integer $area_size
- * @property boolean $location_type
+ * @property int $area_size
+ * @property bool $location_type
  * @property string $cover_photo_url
+ * @property string $short_description
+ * @property string $keywords
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Initiative\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Initiative\Audience[] $audience
  * @property-read \App\Models\Initiative\Contact $contact
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
- * @property-read mixed $category_name
  * @property-read mixed $audience_size_value
  * @property-read mixed $status_value
  * @property-read mixed $logo
@@ -49,29 +50,28 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereStartAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereAudienceSize($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereGroupSize($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative wherePromoter($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereAreaSize($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereLocationType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereCoverPhotoUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereShortDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereKeywords($value)
  * @mixin \Eloquent
  */
 class Initiative extends Model
 {
-    use CrudTrait;
+    use CrudTrait, Searchable;
+
     protected $table = 'initiatives';
 
     protected $fillable = [
         'name', 'url', 'logo_url', 'cover_photo_url', 'start_at', 'audience_size',
-        'group_size', 'area_size', 'location_type', 'location_id', 'contact_id', 'description', 'status'
+        'group_size', 'area_size', 'location_type', 'location_id', 'contact_id', 'description', 'status',
+        'keywords', 'short_description'
     ];
 
     protected $notNullables = ['contact_id', 'location_id', 'category_id', 'audience_id', 'name'];
-
-    protected $appends = [
-//        'category_name'
-    ];
 
     /* ******************************************
      * ********** MODEL RELATIONS ***************
@@ -99,12 +99,18 @@ class Initiative extends Model
 
     public function locations()
     {
-        return $this->belongsToMany(Location::class, 'initiative_location');
+        return $this->morphToMany(Location::class, 'locatable');
     }
 
     public function events()
     {
         return $this->belongsToMany(Event::class, 'event_initiative');
+    }
+
+    public function delete()
+    {
+        $this->locations()->detach();
+        return parent::delete();
     }
 
     /* ******************************************
@@ -192,5 +198,25 @@ class Initiative extends Model
             \Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
             $this->attributes[$attribute_name] = $destination_path.'/'.$filename;
         }
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = array_only($this->toArray(), ['name', 'short_description']);
+        $array['keywords'] = array_map(function($word) {
+            return trim($word);
+        }, explode(',', $this->keywords));
+        $array['locations'] = collect($this->locations)->map(function (Location $location){
+            $collection = collect($location);
+            $collection['position'] = [(float) $location->lng, (float) $location->lat];
+            return $collection->only(['name', 'position'])->all();
+        })->toArray();
+
+        return $array;
     }
 }

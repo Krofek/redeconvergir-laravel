@@ -72,6 +72,11 @@ class EventCrudController extends CrudController
             'label' => 'Description',
             'type'  => 'simplemde'
         ]);
+
+
+
+
+
     }
 
     public function store(StoreRequest $request)

@@ -20,9 +20,11 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class InitiativeService
 {
+
     /**
      * C R U D
      * -------
@@ -119,6 +121,45 @@ class InitiativeService
         }
         $data['url'] = str_slug($data['name']);
         return $data;
+    }
+
+    /**
+     * Api helper functions.
+     */
+    
+    
+
+    /**
+     * @param Collection $initiatives
+     * @param $boundary
+     * @return static
+     */
+    public static function prepareForApi(Collection $initiatives)
+    {
+        $initiatives = $initiatives->keyBy('id');
+        return $initiatives->map(function (Initiative $initiative) {
+            /** @var Collection $collection */
+            $collection = collect($initiative);
+            /**
+             * When fetching initiatives, we have to see whether or not it is within boundary.
+             * If fetching initiatives, then $initiative->location is present, if fetching markers, it is not.
+             */
+            if(isset($collection['locations'])){
+                $locationCollection = collect($collection['locations']);
+                $collection['within_bounds'] = false;
+                foreach($locationCollection as $location){
+                    /** @var Location $location */
+                    if($location['within_boundary']){
+                        $collection['within_bounds'] = true;
+                        break;
+                    }
+                }
+                $collection['locations'] = $locationCollection->keyBy('id');
+            }
+            return $collection
+                ->only(['id', 'name', 'url', 'logo_url', 'categories', 'locations', 'short_description', 'within_bounds'])
+                ->all();
+        });
     }
 
     /**

@@ -177,7 +177,8 @@ export default {
             "map": {
                 "sidebar": {
                     "search": {
-                        "placeholder": "Iskanje po iniciativah ..."
+                        "placeholder": "Iskanje po iniciativah ...",
+                        "action": "Išči"
                     }
                 }
             },

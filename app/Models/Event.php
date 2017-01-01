@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Event
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $url
  * @property string $website
@@ -48,11 +48,17 @@ class Event extends Model
 
     public function locations()
     {
-        return $this->belongsToMany(Location::class, 'event_location');
+        return $this->morphToMany(Location::class, 'locatable');
     }
 
     public function users()
     {
         return $this->belongsToMany(User::class, 'event_user');
+    }
+
+    public function delete()
+    {
+        $this->locations()->detach();
+        return parent::delete();
     }
 }

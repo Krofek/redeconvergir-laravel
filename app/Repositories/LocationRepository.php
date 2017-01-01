@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Interfaces\LocationRepositoryInterface;
 use App\Models\Location;
+use App\Services\InitiativeService;
 
 class LocationRepository implements LocationRepositoryInterface
 {
@@ -26,8 +27,23 @@ class LocationRepository implements LocationRepositoryInterface
         return $this->location->findOrFail($id);
     }
 
-    public function mapMarkers()
+    public function mapMarkers($boundary)
     {
-        return $this->location->with(['initiatives'])->get();
+        return $this->location
+            ->with(['initiatives'])
+            ->whereHas('initiatives')
+            ->get()
+            ->keyBy('id')
+            ->map(function (Location $marker) use ($boundary){
+                $initiatives = $marker->initiatives;
+                $marker = collect($marker)->all();
+                $marker['position'] = [
+                    'lat' => (float) $marker['lat'],
+                    'lng' => (float) $marker['lng']
+                ];
+                unset($marker['lat'], $marker['lng']);
+                $marker['initiatives'] = InitiativeService::prepareForApi($initiatives)->all();
+                return $marker;
+            })->all();
     }
 }

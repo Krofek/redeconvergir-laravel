@@ -11,11 +11,13 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\Initiative\StoreRequest as StoreRequest;
 use Redirect;
 
-class InitiativeCrudController extends CrudController {
+class InitiativeCrudController extends CrudController
+{
 
     protected $service;
 
-    public function __construct(InitiativeService $service) {
+    public function __construct(InitiativeService $service)
+    {
 
         $this->service = $service;
         parent::__construct();
@@ -32,25 +34,25 @@ class InitiativeCrudController extends CrudController {
          * -----------------------------------------------------------------
          */
         $this->crud->addColumn([
-            'name' => 'name',
+            'name'  => 'name',
             'label' => 'Name'
         ]);
         $this->crud->addColumn([
-            'label' => 'Category',
-            'type' => "select_multiple",
-            'name' => 'categories', // the method that defines the relationship in your Model
-            'entity' => 'categories', // the method that defines the relationship in your Model
+            'label'     => 'Category',
+            'type'      => "select_multiple",
+            'name'      => 'categories', // the method that defines the relationship in your Model
+            'entity'    => 'categories', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
-            'model' => 'App\Models\Initiative\Category', // foreign key model
+            'model'     => 'App\Models\Initiative\Category', // foreign key model
         ]);
         $this->crud->addColumn([
             // 1-n relationship
-            'label' => "Contact", // Table column heading
-            'type' => "select",
-            'name' => 'contact_id', // the column that contains the ID of that connected entity;
-            'entity' => 'contact', // the method that defines the relationship in your Model
+            'label'     => "Contact", // Table column heading
+            'type'      => "select",
+            'name'      => 'contact_id', // the column that contains the ID of that connected entity;
+            'entity'    => 'contact', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
-            'model' => 'App\Models\Initiative\Contact', // foreign key model
+            'model'     => 'App\Models\Initiative\Contact', // foreign key model
         ]);
         /**
          * -----------------------------------------------------------------
@@ -58,31 +60,31 @@ class InitiativeCrudController extends CrudController {
          * -----------------------------------------------------------------
          */
         $this->crud->addField([
-            'name' => 'name',
+            'name'  => 'name',
             'label' => "Name",
-            'type' => 'text',
+            'type'  => 'text',
         ]);
         $this->crud->addField([   // Date
-            'name' => 'start_at',
-            'label' => 'Starting date',
-            'type' => 'date_picker',
+            'name'    => 'start_at',
+            'label'   => 'Starting date',
+            'type'    => 'date_picker',
             'default' => \Date::now()->format('Y-m-d')
         ]);
         $this->crud->addField([
-            'name' => 'categories',
-            'label' => 'Category',
-            'type' => 'select2_multiple',
-            'entity' => 'category',
-            'model' => 'App\Models\Initiative\Category',
+            'name'      => 'categories',
+            'label'     => 'Category',
+            'type'      => 'select2_multiple',
+            'entity'    => 'category',
+            'model'     => 'App\Models\Initiative\Category',
             'attribute' => 'name',
-            'pivot' => true
+            'pivot'     => true
         ]);
         $this->crud->addField([
-            'name' => 'status',
-            'label' => 'Status',
-            'type' => 'radio',
+            'name'    => 'status',
+            'label'   => 'Status',
+            'type'    => 'radio',
 //            'inline' => true,
-            'options' => array_map(function($val){
+            'options' => array_map(function ($val) {
                 return trans("initiative.status." . $val);
             }, config('initiatives.status'))
         ]);
@@ -90,14 +92,14 @@ class InitiativeCrudController extends CrudController {
          * People
          */
         $this->crud->addField([
-            'type' => 'division',
-            'name' => 'division_people',
+            'type'  => 'division',
+            'name'  => 'division_people',
             'label' => 'People'
         ]);
         $this->crud->addField([
-            'name' => 'group_size',
-            'label' => "Number of people actively involved",
-            'type' => 'number',
+            'name'   => 'group_size',
+            'label'  => "Number of people actively involved",
+            'type'   => 'number',
             'prefix' => "People",
         ]);
         /*
@@ -109,97 +111,110 @@ class InitiativeCrudController extends CrudController {
          * https://laravel.com/docs/5.3/eloquent-relationships => Retrieving Intermediate Table Columns
          */
         $this->crud->addField([
-            'name' => 'audience',
-            'label' => 'Audience',
-            'type' => 'select2_multiple_and_text',
-            'entity' => 'audience',
-            'model' => 'App\Models\Initiative\Audience',
-            'attribute' => 'name',
-            'pivot' => true,
+            'name'              => 'audience',
+            'label'             => 'Audience',
+            'type'              => 'select2_multiple_and_text',
+            'entity'            => 'audience',
+            'model'             => 'App\Models\Initiative\Audience',
+            'attribute'         => 'name',
+            'pivot'             => true,
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
             # other
-            'other_id' => config('initiatives.audience_other_id'), # id of 'Other', we don't show it in multiple select
-            'pivot_column' => 'name', # name of additional column in pivot table
-            'label_other' => 'Audience (other)',
-            'name_other' => 'audience_other', # merely name of text input
+            'other_id'          => config('initiatives.audience_other_id'), # id of 'Other', we don't show it in multiple select
+            'pivot_column'      => 'name', # name of additional column in pivot table
+            'label_other'       => 'Audience (other)',
+            'name_other'        => 'audience_other', # merely name of text input
             'placeholder_other' => 'Fill if target audience not listed (e.g. \'families, elderly\')'
         ]);
         $this->crud->addField([
-            'name' => 'audience_size',
-            'label' => 'Audience size',
-            'type' => 'select_from_array',
+            'name'        => 'audience_size',
+            'label'       => 'Audience size',
+            'type'        => 'select_from_array',
             'allows_null' => false,
-            'options' => config('initiatives.audience_size')
+            'options'     => config('initiatives.audience_size')
         ]);
         $this->crud->addField([
-            'type' => 'division',
-            'name' => 'division_location',
+            'type'  => 'division',
+            'name'  => 'division_location',
             'label' => 'Location'
         ]);
         $this->crud->addField([
-            'name' => 'locations',
-            'label' => 'Location',
-            'type' => 'address',
+            'name'          => 'locations',
+            'label'         => 'Location',
+            'type'          => 'address',
             'store_as_json' => true,
         ]);
         $this->crud->addField([
-            'name' => 'location_type',
-            'label' => 'Location type',
-            'type' => 'radio',
-            'inline' => true,
-            'options' => array_map(function($val){
+            'name'    => 'location_type',
+            'label'   => 'Location type',
+            'type'    => 'radio',
+            'inline'  => true,
+            'options' => array_map(function ($val) {
                 return trans("initiative.location_type." . $val);
             }, config('initiatives.location_type'))
         ]);
         $this->crud->addField([
-            'name' => 'area_size',
-            'label' => 'Area size',
-            'type' => 'number',
+            'name'   => 'area_size',
+            'label'  => 'Area size',
+            'type'   => 'number',
             'prefix' => "Ha",
         ]);
         $this->crud->addField([
-            'type' => 'division',
-            'name' => 'division_media',
+            'type'  => 'division',
+            'name'  => 'division_media',
             'label' => 'Media'
         ]);
         $this->crud->addField([ // image
-            'label' => "Logo",
-            'name' => "logo_url",
-            'type' => 'image',
-            'upload' => true,
-            'crop' => true, // set to true to allow cropping, false to disable,
-            'placeholder' => url('uploads/logos/placeholder.jpg'),
+            'label'        => "Logo",
+            'name'         => "logo_url",
+            'type'         => 'image',
+            'upload'       => true,
+            'crop'         => true, // set to true to allow cropping, false to disable,
+            'placeholder'  => url('uploads/logos/placeholder.jpg'),
             'aspect_ratio' => 1, // omit or set to 0 to allow any aspect ratio
         ]);
         $this->crud->addField([ // image
-            'label' => "Cover photo",
-            'name' => "cover_photo_url",
-            'type' => 'image',
-            'upload' => true,
-            'crop' => true, // set to true to allow cropping, false to disable,
-            'placeholder' => url('uploads/covers/placeholder.jpg'),
-            'aspect_ratio' => config('initiatives.images.cover_photo.width')/config('initiatives.images.cover_photo.height'),
+            'label'        => "Cover photo",
+            'name'         => "cover_photo_url",
+            'type'         => 'image',
+            'upload'       => true,
+            'crop'         => true, // set to true to allow cropping, false to disable,
+            'placeholder'  => url('uploads/covers/placeholder.jpg'),
+            'aspect_ratio' => config('initiatives.images.cover_photo.width') / config('initiatives.images.cover_photo.height'),
         ]);
 //        $this->crud->addField([
 //           ''
 //        ]);
         $this->crud->addField([
-            'label' => "Contact & Social",
-            'type' => 'grouped', // custom method
-            'name' => 'contact', // nested input name (e.g. "contact" in contact[name])
+            'label'           => "Contact & Social",
+            'type'            => 'grouped', // custom method
+            'name'            => 'contact', // nested input name (e.g. "contact" in contact[name])
             'crud_controller' => new ContactCrudController() // crud controller from which we scrape fields
         ]);
         $this->crud->addField([
-            'type' => 'division',
-            'name' => 'division_description',
-            'label' => 'Description'
+            'type'  => 'division',
+            'name'  => 'division_description',
+            'label' => 'Description and keywords'
         ]);
         $this->crud->addField([
-            'name' => 'description',
+            'name'       => 'short_description',
+            'type'       => 'textarea',
+            'label'      => 'Short description',
+            'attributes' => ['maxlength' => 140],
+            'hint'       => 'Description that will be shown in sidebar (max. 140 characters).'
+        ]);
+        $this->crud->addField([
+            'name'  => 'keywords',
+            'type'  => 'text',
+            'label' => 'Searchable words',
+            'hint'  => 'Separate with commas, eg "permakulturna kmetija, naravna gradnja"'
+        ]);
+        $this->crud->addField([
+            'name'  => 'description',
             'label' => 'Description',
-            'type' => 'simplemde'
+            'type'  => 'simplemde'
         ]);
 
     }

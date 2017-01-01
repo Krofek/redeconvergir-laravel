@@ -23,11 +23,6 @@ Route::get('/bootswatch', function () {
     return view('bootswatch');
 });
 
-Route::group(['prefix' => 'api', 'as' => 'api::', 'middleware' => 'api', 'namespace' => 'Api'], function (){
-    Route::post('initiatives/markers', ['as' => 'initiatives-markers', 'uses' => 'InitiativeController@markers']); # called on filters change
-    Route::post('initiatives/list-items', ['as' => 'initiatives-list-items', 'uses' => 'InitiativeController@listItems']); # called on boundsChange
-});
-
 Route::get('/auth/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('/auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
 
