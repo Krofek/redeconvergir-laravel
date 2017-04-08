@@ -1,5 +1,9 @@
 export default class InitiativeMapService {
-
+    /**
+     * Constructor.
+     * 
+     * @param state
+     */
     constructor(state) {
         this.state = state
     }
@@ -18,7 +22,6 @@ export default class InitiativeMapService {
             return entities;
         }, {});
     }
-
 
     /**
      * Returns ratio of sidebar width to body width.

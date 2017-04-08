@@ -6,6 +6,8 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 @import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700|Merriweather:400,400i,700&subset=latin-ext");
+@import url(/vendor/backpack/select2/select2.css);
+@import url(/vendor/backpack/select2/select2-bootstrap-dick.css);
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -6776,8 +6778,8 @@ button.close {
 }
 
 .modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
 }
 
 .modal-header {
@@ -8119,6 +8121,12 @@ hr {
   .featurette-heading {
     margin-top: 120px;
   }
+}
+
+.initiative-details {
+  width: 100%;
+  height: calc(80vh - 45px);
+  display: table;
 }
 
 /*# sourceMappingURL=app.css.map */

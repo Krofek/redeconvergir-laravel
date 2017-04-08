@@ -18,6 +18,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::group(['as' => 'api::', 'middleware' => 'api', 'namespace' => 'Api'], function (){
-    Route::get('initiatives/markers', ['as' => 'map-markers', 'uses' => 'InitiativeController@markers']); # called on filters change
-    Route::get('initiatives/list-items', ['as' => 'initiatives', 'uses' => 'InitiativeController@initiatives']); # called on boundsChange
+    Route::get('map/filters-data', ['as' => 'initiative-filters-data', 'uses' => 'MapController@filtersData']); # called on init, fetches filter data
+
+    Route::get('map/markers', ['as' => 'map-markers', 'uses' => 'MapController@markers']); # called on filters change
+    Route::get('map/initiatives', ['as' => 'initiatives', 'uses' => 'MapController@initiatives']); # called on boundsChange
 });

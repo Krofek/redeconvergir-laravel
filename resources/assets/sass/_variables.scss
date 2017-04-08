@@ -1,3 +1,14 @@
+// Drustvo za permakulturo Slovenije
+// Variables
+// --------------------------------------------------
+
+//== Initiative map (Micelij)
+//
+//** Height of filter section within sidebar
+$filter-height: 200px;
+
+
+
 $bootstrap-sass-asset-helper: false !default;
 // Yeti 3.3.7
 // Variables
@@ -15,6 +26,7 @@ $gray:                   #6f6f6f !default; // #555
 $gray-light:             lighten($gray-base, 60%) !default;   // #999
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
+$brand-primary-dark:    #005475 !default;
 $brand-primary:         #008cba !default;
 $brand-success:         #43ac6a !default;
 $brand-info:            #5bc0de !default;
@@ -606,7 +618,7 @@ $modal-content-fallback-border-color:          #999 !default;
 //** Modal backdrop background color
 $modal-backdrop-bg:           #000 !default;
 //** Modal backdrop opacity
-$modal-backdrop-opacity:      .5 !default;
+$modal-backdrop-opacity:      .2 !default;
 //** Modal header border color
 $modal-header-border-color:   #e5e5e5 !default;
 //** Modal footer border color

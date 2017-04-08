@@ -24,7 +24,15 @@
                 <vgm-info-window
                         :opened="m.id in focusedMarkers"
                         @closeclick="closeInfoWindow"
-                >asddsa</vgm-info-window>
+                >
+                    <div class="bs-component">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item" v-for="i in m.initiatives">
+                                {{ i.name }}
+                            </a>
+                        </div>
+                    </div>
+                </vgm-info-window>
             </vgm-marker>
         </vgm-map>
     </div>
@@ -93,6 +101,9 @@
             closeInfoWindow() {
                 this.$store.dispatch('clear');
             }
+            /**
+             * tu naredi se spremljanje search criteria; takoj ko kriteriji izlocijo fokusirano iniciativo jo odfokusiraj
+             */
         },
         computed: {
             ...mapGetters({
@@ -120,4 +131,19 @@
         display: table;
         margin-top: $navbar-height;
     }
+
+    .modal, .modal-backdrop {
+        position: absolute !important;
+    }
+
+    .gm-style-iw {
+        top: 1px !important;
+        left: 1px !important;
+        background-color: #fff;
+        border-radius: 2px 2px 0 0;
+    }
+
+    /*.gm-style-iw .list-group {*/
+        /*margin: 0;*/
+    /*}*/
 </style>

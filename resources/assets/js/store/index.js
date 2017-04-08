@@ -19,7 +19,12 @@ export default new Vuex.Store({
         topInitiatives: [],
         focusedMarkers: [],
         searchQuery: "",
-        bounds: {}
+        bounds: {},
+        filtersData: [],
+        filters: {
+            categories: [],
+            audiences: []
+        }
     },
     actions,
     getters,

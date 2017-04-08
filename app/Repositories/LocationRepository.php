@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\LocationRepositoryInterface;
 use App\Models\Location;
 use App\Services\InitiativeService;
+use App\Services\MapService;
 
 class LocationRepository implements LocationRepositoryInterface
 {
@@ -27,14 +28,16 @@ class LocationRepository implements LocationRepositoryInterface
         return $this->location->findOrFail($id);
     }
 
-    public function mapMarkers($boundary)
+    public function mapMarkers($filters)
     {
         return $this->location
             ->with(['initiatives'])
-            ->whereHas('initiatives')
+            ->whereHas('initiatives.categories', function($query) use ($filters) {
+                MapService::applyFilters($query, $filters);
+            })
             ->get()
             ->keyBy('id')
-            ->map(function (Location $marker) use ($boundary){
+            ->map(function (Location $marker) use ($filters){
                 $initiatives = $marker->initiatives;
                 $marker = collect($marker)->all();
                 $marker['position'] = [

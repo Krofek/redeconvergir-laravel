@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Engines\ElasticsearchEngine;
 use App\Models\Initiative;
+use App\Models\Initiative\Audience;
+use App\Models\Initiative\Category;
 use App\Repositories\InitiativeRepository;
 use App\Repositories\LocationRepository;
 use App\Services\InitiativeService;
+use App\Services\MapService;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class InitiativeController extends Controller
+class MapController extends Controller
 {
     protected $initiative;
     protected $location;
@@ -23,16 +27,27 @@ class InitiativeController extends Controller
         $this->location = $location;
     }
 
-//    /**
-//     * Apply boundaries given in form array('south' => ..., 'west' => ..., ...)
-//     */
-//    $boundaries = json_decode($request->input('boundaries'));
-//    $initiatives = $this->initiative->withinBoundary($boundaries);
+    public function filtersData(Request $request)
+    {
+        $filtersData = [];
+        $filtersData['categories'] = Category::all()->map(function(Category $category) {
+            $collection = collect($category);
+            return $collection->only(['id', 'name', 'description']);
+        });
+        $filtersData['audiences'] = Audience::all()->map(function(Audience $audience) {
+            $collection = collect($audience);
+            return $collection->only(['id', 'name']);
+        });
+
+        return \Response::json([
+            'filters_data' => $filtersData,
+        ]);
+    }
 
     public function markers(Request $request)
     {
-        $boundary = json_decode($request->input('boundaries'));
-        $markers = $this->location->mapMarkers(null); #pass filters here
+        $filters = $request->input('filters');
+        $markers = $this->location->mapMarkers($filters);
         return \Response::json([
             'markers' => $markers
         ]);
@@ -40,16 +55,14 @@ class InitiativeController extends Controller
 
     public function initiatives(Request $request)
     {
-        $search = trim(mb_strtolower(ElasticsearchEngine::escape($request->input('searchQuery'))));
-        if($search === "") {
-            $search = "*";
-        }
+        $query = ElasticsearchEngine::prepareSearchQuery($request->input('searchQuery'));
         $boundary = json_decode($request->input('boundaries'));
+        $filters = $request->input('filters');
 
         $result = Initiative::search([
             "query_string" => [
                 'fields'           => ['name^3', 'short_description^2', 'description', 'keywords^2'],
-                'query'            => $search,
+                'query'            => $query,
                 'use_dis_max'      => true,
                 'default_operator' => 'AND'
             ],
@@ -83,9 +96,9 @@ class InitiativeController extends Controller
 //            ],
 //        ],
 
-        ], function (Initiative $initiative) use ($boundary) {
+        ], function (Initiative $initiative) use ($boundary, $filters) {
             return $initiative->with([
-                'categories' => function ($query) {
+                'categories' => function ($query) use ($filters) {
                     $query->select('id', 'name', 'description');
                 },
                 'locations'  => function ($query) use ($boundary) {
@@ -97,7 +110,9 @@ class InitiativeController extends Controller
                             'lngEast'  => $boundary->east
                         ]);
                 }
-            ]);
+            ])->whereHas('categories', function($query) use ($filters) {
+                MapService::applyFilters($query, $filters);
+            });
         })->orderBy('_score', 'desc')->orderBy('name.keyword', 'asc')->get();
 
         $initiatives = InitiativeService::prepareForApi($result);

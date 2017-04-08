@@ -1,11 +1,20 @@
-<?php 
+<?php
 
  return [
      "map" => [
          'sidebar' => [
              'search' => [
-                 'placeholder' => 'Iskanje po iniciativah ...',
+                 'placeholder' => 'Iskanje po organizacijah ...',
                  'action' => 'Išči'
+             ],
+             'filters' => [
+                 'title' => 'Nastavitev filtrov',
+                 'choose_categories' => 'Izberi željene katergorije',
+                 'choose_audience' => 'Ciljna publika organizacije',
+                 'clear' => 'Odstrani vse filtre in iskalne besede'
+             ],
+             'list' => [
+                 'no_results' => 'Vašim iskalnim kriterijem ne ustreza nobena organizacija.',
              ]
          ]
      ],

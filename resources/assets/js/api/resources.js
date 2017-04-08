@@ -12,5 +12,6 @@ Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#csrf-token').
 /**
  * Export resources (used in api/index.js)
  */
+export const FiltersDataResource = Vue.resource(laroute.action('api::initiative-filters-data'));
 export const InitiativeResource = Vue.resource(laroute.action('api::initiatives'));
 export const MarkerResource = Vue.resource(laroute.action('api::map-markers'));

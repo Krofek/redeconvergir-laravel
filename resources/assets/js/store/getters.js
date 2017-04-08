@@ -25,3 +25,11 @@ export const bounds = (state) => {
 export const searchQuery = (state) => {
     return state.searchQuery
 };
+
+export const filtersData = (state) => {
+    return state.filtersData
+};
+
+export const filters = (state) => {
+    return state.filters
+};

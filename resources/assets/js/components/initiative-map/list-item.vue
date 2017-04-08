@@ -1,6 +1,7 @@
 <!--suppress CssUnknownTarget -->
 <template>
-    <a href="#" class="list-group-item" :class="{disabled: !initiative.within_bounds, active: isActive}" @click="clickInitiative(initiative)">
+    <a href="#" class="list-group-item" :class="{disabled: !initiative.within_bounds, active: isActive}"
+       @click="clickInitiative(initiative)">
         <div class="list-group-item-left">
             <img :src="initiative.logo_url" :alt="initiative.name" class="list-group-item-image img-thumbnail">
         </div>
@@ -56,27 +57,29 @@
     @import "resources/assets/sass/variables";
     @import "resources/assets/sass/mixins";
 
-    .list-group-item{
+    .list-group-item {
         overflow: hidden;
-        &-left{
-             padding: 0;
-             width: 100px;
-             height: 100px;
-             float: left;
-         }
-        &-right{
-             padding: 0 0 0 10px;
-             float: left;
-             width: calc(100% - 110px);
-         }
 
-        &-tags{
-             overflow: hidden;
-             padding-left: 0;
-             margin: 10px 0 3px 0 ;
+        &-left {
+            padding: 0;
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
 
-            li{
-                font-size: 11px;
+        &-right {
+            padding: 0 0 0 10px;
+            float: left;
+            width: calc(100% - 110px);
+        }
+
+        &-tags {
+            overflow: hidden;
+            padding-left: 0;
+            margin: 10px 0 3px 0;
+
+            li {
+                font-size: 12px;
                 float: left;
                 display: inline-block;
                 background: #dddddd;
@@ -84,13 +87,25 @@
                 margin-right: 4px;
                 margin-bottom: 3px;
             }
-            &-wrapper{
+
+            &-wrapper {
             }
         }
 
-        &-image{
+        &.active &-tags {
+            li {
+                background: $brand-primary-dark;
+            }
+        }
+
+        &.active &-text {
+            font-size: 13px;
+        }
+
+        &-image {
             width: 100px;
             height: 100px;
         }
+
     }
 </style>

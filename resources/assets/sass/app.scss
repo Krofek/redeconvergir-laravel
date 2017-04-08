@@ -1,6 +1,8 @@
 @import "variables";
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "bootswatch";
+@import "/vendor/backpack/select2/select2.css";
+@import "/vendor/backpack/select2/select2-bootstrap-dick.css";
 @import "mixins";
 
 h4 {
@@ -53,4 +55,10 @@ hr {
   .featurette-heading {
     margin-top: 120px;
   }
+}
+
+.initiative-details {
+  width: 100%;
+  height: calc(80vh - 45px);
+  display: table;
 }

@@ -214,6 +214,7 @@ class ElasticsearchEngine extends Engine
             return Collection::make();
         }
 
+        // Apply custom callback function.
         if ($this->builder->callback) {
             $queryBuilder = call_user_func($this->builder->callback, $model);
         } else {
@@ -223,12 +224,19 @@ class ElasticsearchEngine extends Engine
         $keys = collect($results['hits']['hits'])
             ->pluck('_id')->values()->all();
 
+        // Fetch models that correspond to hits' ids.
         $models = $queryBuilder->whereIn(
             $model->getKeyName(), $keys
         )->get()->keyBy($model->getKeyName());
 
+        // Finally, map fetched models to elastic hits, and because we've possibly applied a callback (which may filter
+        // results), some of elements within $results['hits]['hits'] are not present within $models.
+        // We map models to elastic hits because we want sorting functionality, and results have already been sorted
+        // within $results['hits']['hits'].
         return collect($results['hits']['hits'])->map(function ($hit) use ($model, $models) {
-            return $models[$hit['_id']];
+            return $models->contains($hit['_id']) ? $models[$hit['_id']] : null;
+        })->reject(function ($initiative) {
+            return empty($initiative);
         });
     }
 
@@ -253,5 +261,18 @@ class ElasticsearchEngine extends Engine
     public static function escape($string) {
         $regex = "/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/";
         return preg_replace($regex, addslashes('\\$0'), $string);
+    }
+
+    /**
+     * Prepares (i.e. formats and escapes) search query
+     * @param string $query
+     * @return string
+     */
+    public static function prepareSearchQuery($query) {
+        $query = trim(mb_strtolower(ElasticsearchEngine::escape($query)));
+        if($query === "") {
+            $query = "*";
+        }
+        return $query;
     }
 }

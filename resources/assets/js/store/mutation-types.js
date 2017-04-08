@@ -4,5 +4,12 @@ export const update_focused_initiatives = 'update_focused_initiatives';
 export const update_top_initiatives = 'update_top_initiatives';
 export const update_top_and_focused_initiatives = 'update_top_and_focused_initiatives';
 export const update_focused_markers = 'update_focused_markers';
+
+export const update_filters_data = 'update_filters_data';
+
 export const update_bounds = 'update_bounds';
 export const update_search_query = 'update_search_query';
+export const update_filters = 'update_filters';
+export const update_filters_categories = 'update_filters_categories';
+export const update_filters_audiences = 'update_filters_audiences';
+
