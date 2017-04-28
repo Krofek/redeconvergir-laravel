@@ -156,7 +156,6 @@ return [
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Toin0u\Geocoder\GeocoderServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
@@ -244,12 +243,12 @@ return [
         'Image'               => Intervention\Image\Facades\Image::class,
         'Form'                => Collective\Html\FormFacade::class,
         'Html'                => Collective\Html\HtmlFacade::class,
-        'Geocoder'            => Toin0u\Geocoder\Facade\Geocoder::class,
         'Socialite'           => Laravel\Socialite\Facades\Socialite::class,
         'GoogleMaps'          => GoogleMaps\Facade\GoogleMapsFacade::class,
         'JWTAuth'             => Tymon\JWTAuth\Facades\JWTAuth::class,
 //        'Backpack\CRUD\PanelTraits\Read' => \App\Extensions\Backpack\CRUD\PanelTraits\Read::class,
 //        'Mapper'              => Cornford\Googlmapper\Facades\MapperFacade::class,
+        'ViewHelper'          => App\Services\ViewHelperService::class
     ],
 
 ];

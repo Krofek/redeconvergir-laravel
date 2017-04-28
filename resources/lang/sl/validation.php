@@ -94,12 +94,8 @@ return [
     */
 
     'custom' => [
-        'start_at' => [
-            'required' => 'Starting date is required.',
-        ],
-        'end_at'   => [
-            'required' => 'End date is required.',
-            'after'    => 'The end date must be a date after starting date.'
+        'attribute-name' => [
+            'rule-name' => 'custom-message',
         ],
     ],
 

@@ -57,6 +57,125 @@ hr {
   }
 }
 
+/*
+  Custom variables.
+ */
+$banner-height: 300px;
+$logo-banner-ratio: 0.8;
+
+/*
+  Finally, a space for custom css.
+ */
+
+.affix {
+  left: 0;
+  right: 0;
+  top: 0;
+
+  &-top .navbar-header {
+    display: none;
+  }
+
+  .navbar-header {
+    display: block;
+  }
+}
+
+.affix + .affixer {
+  padding-top: 70px;
+}
+
+.logo-wrapper {
+  background: url("/images/banners/3.JPG") center 0;
+  width: 100%;
+  height: $banner-height;
+
+  .logo-wrapper-overlay {
+    width: 100%;
+    height: $banner-height;
+    background: url("/images/assets/broken-noise.png");
+
+    .container {
+      overflow: hidden;
+      display: block;
+
+      .logo-circle-wrapper{
+        height: $banner-height;
+        width: $logo-banner-ratio * $banner-height;
+        line-height: $banner-height;
+        float: left;
+
+        .logo-curved-brace {
+          width: $logo-banner-ratio * $banner-height;
+          background: url("/images/assets/logo_bw_smooth.png");
+          height: $logo-banner-ratio * $banner-height;
+          display: inline-block;
+          -webkit-background-size: 100% 100%;
+          vertical-align: middle;
+          //margin-bottom: 30px;
+        }
+
+        .logo-circle {
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.86);
+          width: 0.6 * $banner-height;
+          height: 0.6 * $banner-height;
+          line-height: 0.6 * $banner-height;
+          display: inline-block;
+          vertical-align: middle;
+          margin-bottom: 10px;
+
+          .logo {
+            background: url("/images/assets/logo.png");
+            width: 0.42 * 205/281 * $banner-height;
+            height: 0.42 * $banner-height;
+            display: inline-block;
+            vertical-align: middle;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+          }
+        }
+      }
+
+      .logo-title-wrapper {
+        float: left;
+        height: $banner-height;
+        color: #fff !important;
+        line-height: $banner-height + 30px;
+
+        h1 {
+          color: #fff;
+          text-shadow: 2px 2px rgba(0, 0, 0, 0.4);
+          padding: 10px 15px;
+          margin: 0 0 0 18px;
+          display: inline-block;
+          font-size: 46px;
+        }
+      }
+
+      &:hover {
+        .logo-title {
+          text-decoration: none !important;
+        }
+
+        .logo-circle {
+          background: rgba(255, 255, 255, 0.93);
+        }
+
+        h1 {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+}
+
+.main-container {
+  padding-top: 30px;
+}
+
 .initiative-details {
   width: 100%;
   height: calc(80vh - 45px);

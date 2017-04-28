@@ -19,6 +19,7 @@ class ChangeInitiativeAudienceTables extends Migration
         });
         Schema::table('initiative_audience', function (Blueprint $table) {
             $table->removeColumn('id');
+            $table->integer('audience_id')->unsigned();
             $table->foreign('audience_id')->references('id')->on('audience')->onDelete('cascade');
         });
     }

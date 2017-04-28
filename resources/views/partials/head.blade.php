@@ -5,3 +5,8 @@
 {{-- CSRF token for ajax vue-resource  --}}
 <meta id="csrf-token" name="token" value="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{ url('/assets/css/app.css') }}" media="screen">
+<script>
+    window.Laravel = <?php echo json_encode([
+        'csrfToken' => csrf_token(),
+    ]); ?>
+</script>

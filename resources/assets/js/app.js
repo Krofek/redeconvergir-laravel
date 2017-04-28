@@ -47,3 +47,7 @@ window.Vue = new Vue({
         InitiativeMap
     }
 });
+
+/**
+ * Non-vue scripts. Pls try to integrate app frontend behaviour with Vue as much as possible.
+ */

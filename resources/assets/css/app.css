@@ -1,4 +1,12 @@
 @charset "UTF-8";
+/*
+$brand-primary-dark:    #325636 !default;
+$brand-primary:         #648F52 !default;
+$brand-success:         #ABC871 !default;
+$brand-info:            #BED69D !default;
+$brand-warning:         #E99002 !default;
+$brand-danger:          #F04124 !default;
+*/
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -4759,7 +4767,7 @@ tbody.collapse.in {
 .navbar {
   position: relative;
   min-height: 45px;
-  margin-bottom: 21px;
+  margin-bottom: 0;
   border: 1px solid transparent;
 }
 
@@ -8121,6 +8129,115 @@ hr {
   .featurette-heading {
     margin-top: 120px;
   }
+}
+
+/*
+  Custom variables.
+ */
+/*
+  Finally, a space for custom css.
+ */
+.affix {
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.affix-top .navbar-header {
+  display: none;
+}
+
+.affix .navbar-header {
+  display: block;
+}
+
+.affix + .affixer {
+  padding-top: 70px;
+}
+
+.logo-wrapper {
+  background: url("/images/banners/3.JPG") center 0;
+  width: 100%;
+  height: 300px;
+}
+
+.logo-wrapper .logo-wrapper-overlay {
+  width: 100%;
+  height: 300px;
+  background: url("/images/assets/broken-noise.png");
+}
+
+.logo-wrapper .logo-wrapper-overlay .container {
+  overflow: hidden;
+  display: block;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-circle-wrapper {
+  height: 300px;
+  width: 240px;
+  line-height: 300px;
+  float: left;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-circle-wrapper .logo-curved-brace {
+  width: 240px;
+  background: url("/images/assets/logo_bw_smooth.png");
+  height: 240px;
+  display: inline-block;
+  -webkit-background-size: 100% 100%;
+  vertical-align: middle;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-circle-wrapper .logo-circle {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.86);
+  width: 180px;
+  height: 180px;
+  line-height: 180px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-circle-wrapper .logo-circle .logo {
+  background: url("/images/assets/logo.png");
+  width: 91.9217081851px;
+  height: 126px;
+  display: inline-block;
+  vertical-align: middle;
+  background-size: 100% 100%;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-title-wrapper {
+  float: left;
+  height: 300px;
+  color: #fff !important;
+  line-height: 330px;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container .logo-title-wrapper h1 {
+  color: #fff;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.4);
+  padding: 10px 15px;
+  margin: 0 0 0 18px;
+  display: inline-block;
+  font-size: 46px;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container:hover .logo-title {
+  text-decoration: none !important;
+}
+
+.logo-wrapper .logo-wrapper-overlay .container:hover .logo-circle {
+  background: rgba(255, 255, 255, 0.93);
+}
+
+.logo-wrapper .logo-wrapper-overlay .container:hover h1 {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.main-container {
+  padding-top: 30px;
 }
 
 .initiative-details {

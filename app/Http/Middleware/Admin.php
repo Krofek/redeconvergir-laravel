@@ -17,7 +17,6 @@ class Admin
      */
     public function handle($request, Closure $next, $guard = null)
     {
-//        dd($request->route()->getAction()['controller']);
         if (Auth::guard($guard)->guest() || !$request->user($guard)->can('access administration')) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response(trans('backpack::base.unauthorized'), 401);

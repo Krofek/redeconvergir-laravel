@@ -34,6 +34,16 @@ $brand-warning:         #E99002 !default;
 $brand-danger:          #F04124 !default;
 
 
+/*
+$brand-primary-dark:    #325636 !default;
+$brand-primary:         #648F52 !default;
+$brand-success:         #ABC871 !default;
+$brand-info:            #BED69D !default;
+$brand-warning:         #E99002 !default;
+$brand-danger:          #F04124 !default;
+*/
+
+
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
@@ -371,7 +381,7 @@ $container-lg:                 $container-large-desktop !default;
 
 // Basics of a navbar
 $navbar-height:                    45px !default;
-$navbar-margin-bottom:             $line-height-computed !default;
+$navbar-margin-bottom:             0 !default;
 $navbar-border-radius:             $border-radius-base !default;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;

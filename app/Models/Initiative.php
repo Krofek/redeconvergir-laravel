@@ -58,6 +58,8 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereShortDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereKeywords($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Initiative whereUserId($value)
  */
 class Initiative extends Model
 {

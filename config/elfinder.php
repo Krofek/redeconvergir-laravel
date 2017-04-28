@@ -10,7 +10,7 @@ return array(
     | The dir where to store the images (relative from public)
     |
     */
-    'dir' => ['files'],
+    'dir' => ['images'],
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return array(
     |    ]
     */
     'disks' => [
-	    'local'
+        'local'
     ],
 
     /*
@@ -39,8 +39,8 @@ return array(
     */
 
     'route' => [
-        'prefix' => 'elfinder'//,
-        //'middleware' => 'replace-this-with-your-middleware', //Set to null to disable middleware filter
+        'prefix' => 'admin/elfinder'
+        //'middleware' => 'replace-t    his-with-your-middleware', //Set to null to disable middleware filter
     ],
 
     /*
@@ -64,14 +64,14 @@ return array(
     |
     */
 
-    'roots' => array(array('driver'        => 'LocalFileSystem',
-		           'path'          => 'files/',
-			   'accessControl' => 'Serverfireteam\Panel\libs\AppHelper::access',
-            		   'URL'           => config('app.url') . '/files',
-			   'uploadAllow'   => array('image/png', 'image/jpeg', 'image/pjpeg', 'image/gif'),
-			   'uploadDeny'    => array('all'),
-			   'uploadOrder'   => array('deny', 'allow'),
-			   'acceptedName'  => 'Serverfireteam\Panel\libs\AppHelper::validName')),
+    'roots' => array(array('driver' => 'LocalFileSystem',
+        'path' => 'files/',
+        'accessControl' => 'Serverfireteam\Panel\libs\AppHelper::access',
+        'URL' => config('app.url') . '/files',
+        'uploadAllow' => array('image/png', 'image/jpeg', 'image/pjpeg', 'image/gif'),
+        'uploadDeny' => array('all'),
+        'uploadOrder' => array('deny', 'allow'),
+        'acceptedName' => 'Serverfireteam\Panel\libs\AppHelper::validName')),
 
 
     /*

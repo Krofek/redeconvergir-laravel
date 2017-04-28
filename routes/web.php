@@ -15,17 +15,21 @@
  * Note: admin routes accessible in AdminServiceProvider
  */
 
-Route::get('/', 'IndexController@index');
-Route::get('/micelij', 'InitiativeMapController@index');
+Route::get('/', 'IndexController@index')->name('index');
+Route::get('/micelij', 'InitiativeMapController@index')->name('micelij');
 
 
 Route::get('/bootswatch', function () {
     return view('bootswatch');
 });
 
-Route::get('/auth/{provider}', 'Auth\AuthController@redirectToProvider');
-Route::get('/auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('/auth/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('/auth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::auth(); # adds logout etc.
+
+Route::get('/home', 'HomeController@index');
+
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index');

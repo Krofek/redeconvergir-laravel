@@ -24,7 +24,7 @@
                 <vgm-info-window
                         :opened="m.id in focusedMarkers"
                         @closeclick="closeInfoWindow"
-                >
+                >``
                     <div class="bs-component">
                         <div class="list-group">
                             <a href="#" class="list-group-item" v-for="i in m.initiatives">

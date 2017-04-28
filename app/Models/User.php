@@ -30,6 +30,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User role($roles)
+ * @property string $api_token
+ * @property bool $is_admin
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereApiToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereIsAdmin($value)
  */
 class User extends Authenticatable
 {

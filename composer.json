@@ -18,7 +18,6 @@
         "laravelcollective/html": "5.3.*",
         "predis/predis": "^1.1",
         "doctrine/dbal": "^2.5",
-        "toin0u/geocoder-laravel": "@stable",
         "laravel/socialite": "^2.0",
         "tymon/jwt-auth": "dev-develop",
         "spatie/laravel-fractal": "^1.9",
@@ -38,7 +37,8 @@
         "backpack/newscrud": "^2.1",
         "martinlindhe/laravel-vue-i18n-generator": "^0.1.7",
         "laravel/scout": "^2.0",
-        "elasticsearch/elasticsearch": "^5.0"
+        "elasticsearch/elasticsearch": "^5.0",
+        "barryvdh/laravel-elfinder": "^0.3.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

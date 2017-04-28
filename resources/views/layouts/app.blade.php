@@ -5,13 +5,12 @@
 </head>
 <body>
     <div id="app">
-        <div class="navbar navbar-default navbar-fixed-top">
-            @include('partials.navbar')
-        </div>
+        @include('partials.logo')
+        @include('partials.navbar')
 
         @yield('map')
 
-        <div class="container">
+        <div class="container main-container affixer">
             @section('content')
                 {{--Default value--}}
             @show
